@@ -33,6 +33,7 @@ class BFD {
     }
 
     public static void main( String[] args ) {
+        // need to check whether we want integers or doubles
         Double items[] = {0.7, 0.5, 0.4, 0.1, 0.3};
         double cap = 1.0;
         int n = items.length;
