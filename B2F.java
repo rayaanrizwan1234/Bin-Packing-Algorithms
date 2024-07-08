@@ -31,7 +31,6 @@ class B2F{
                                 n -= 1;
                                 item[i+k] = smallestItem;
                                 break;
-
                             }
                         }
                     }
