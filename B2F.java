@@ -9,7 +9,7 @@ class B2F{
         ArrayList<ArrayList<Integer>> bins = new ArrayList<ArrayList<Integer> >();
         resCap[0] = cap;
         for (int i = 0; i < n; i++){
-            // new issue is that need to figure out how to skip past element if it has already been swapped in.
+            if (item[i] == 0) continue;
             System.out.print(item[i] + "\n");
             int j;
             for (j = 0; j < numberOfBins; j++){
@@ -28,7 +28,7 @@ class B2F{
                     for (int k = i; k < n; k++){
                         for (int l = i; l < n; l++ ){
                             int pair = item[k] + item[l];
-                            if (resCap[j] + smallestItem - pair >= 0 && pair > smallestItem){
+                            if (resCap[j] + smallestItem - pair >= 0 && pair > smallestItem && pair > (cap * (1/6))){
                                 if (pair > replacer[4]){
                                     replacer[0] = j;
                                     replacer[1] = smallestItem;
@@ -41,9 +41,12 @@ class B2F{
                         }
                     }
                 }
+                // updates item and bins with largest feasible pair found
                 if (replacer[4] != 0){
                     bins.get(replacer[0]).set(replacer[5] - 1, item[replacer[2]]);
                     bins.get(replacer[0]).add(item[replacer[3]]);
+                    item[replacer[2]] = 0;
+                    item[replacer[3]] = 0;
                     item[i+1] = replacer[1];
                 }
                 else{
@@ -54,7 +57,6 @@ class B2F{
                 }
             }
         }
-        System.out.print(bins.get(1).get(0));
         return numberOfBins;
     }
     
@@ -65,7 +67,7 @@ class B2F{
 
     public static void main( String[] args ) {
         // B2F works for these values, haven't tried any others yet
-        Integer items[] = {5, 4, 3, 2};
+        Integer items[] = {6, 3, 2, 2};
         int cap = 10;
         int n = items.length;
         System.out.print("Number of bins required in First Fit Decreasing: " + firstFitDecreasing(items, n, cap) + "\n");
