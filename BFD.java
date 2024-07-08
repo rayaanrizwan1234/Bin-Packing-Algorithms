@@ -1,16 +1,15 @@
 import java.util.Arrays;
 import java.util.Collections;
 class BFD {
-    static int bestFit(Double item[], int n, double cap) {
+    static int bestFit(Integer item[], int n, int cap) {
         int numberOfBins = 0;
-        double []resCap = new double[n];
+        int []resCap = new int[n];
         for (int i = 0; i < n; i++) {
             int j;
-            double min = cap + 1.0;
+            int min = cap + 1;
             int bi = 0;
-            // with a tree you just get the in order traversal and select the smallest element in it.
             for (j = 0; j < numberOfBins; j++) {
-                if ((resCap[j] >= item[i] || Math.abs(resCap[j] - item[i]) < 0.00000001) && resCap[j] - item[i] < min){
+                if ((resCap[j] >= item[i]) && resCap[j] - item[i] < min){
                     bi = j;
                     min = resCap[j] - item[i];
                     System.out.print("Putting " + item[i] + " in bin " + (j+1)+ "\n");
@@ -27,15 +26,14 @@ class BFD {
         return numberOfBins;
     }
 
-    static int bestFitDecreasing(Double item[], int n, double cap) {
+    static int bestFitDecreasing(Integer item[], int n, int cap) {
         Arrays.sort(item, Collections.reverseOrder());
         return bestFit(item, n, cap);
     }
 
     public static void main( String[] args ) {
-        // need to check whether we want integers or doubles
-        Double items[] = {0.7, 0.5, 0.4, 0.1, 0.3};
-        double cap = 1.0;
+        Integer items[] = {7, 5, 4, 1, 3};
+        int cap = 10;
         int n = items.length;
         System.out.print("Number of bins required in Best Fit Decreasing: " + bestFitDecreasing(items, n, cap) + "\n");
     }

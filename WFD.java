@@ -2,18 +2,18 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class WFD {
-    static int worstFitDecreasing(Double[] items, double binCapacity) {
+    static int worstFitDecreasing(Integer[] items, int binCapacity) {
         Arrays.sort(items, Collections.reverseOrder());
         int n = items.length;
-        double[] resCap = new double[n];
+        int[] resCap = new int[n];
         int numOfBins = 0;
         for (int i = 0; i < n; i++) {
             int j;
-            // set default values, neither would checnge if no bin is found
-            double max = -1;
+            // set default values, neither would change if no bin is found
+            int max = -1;
             int maxBin = -1;
             for (j = 0; j < numOfBins; j++) {
-                if ((Double.compare(resCap[j], items[i]) >= 0) && (resCap[j] - items[i] > max)) {
+                if (resCap[j] >= items[i] && (resCap[j] - items[i] > max)) {
                     maxBin = j;
                     max = resCap[j] - items[i];
                 }
@@ -31,8 +31,8 @@ public class WFD {
     }
 
     public static void main(String[] args) {
-        Double[] items = {0.4, 0.4, 0.2};
-        double binCapacity = 1.0;
+        Integer[] items = {4, 4, 2};
+        int binCapacity = 10;
         System.out.println(worstFitDecreasing(items, binCapacity));
     }
 }
