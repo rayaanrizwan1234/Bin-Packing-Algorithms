@@ -3,14 +3,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 class B2F{
-    static int firstFit(Integer item[], int n, int cap) {
+    static int bestTwoFit(Integer item[], int n, int cap) {
         int numberOfBins = 0;
         int []resCap = new int[n];
         ArrayList<ArrayList<Integer>> bins = new ArrayList<ArrayList<Integer> >();
         resCap[0] = cap;
         for (int i = 0; i < n; i++){
+            // System.out.print(item[i] + "\n");
             if (item[i] == 0) continue;
-            System.out.print(item[i] + "\n");
             int j;
             for (j = 0; j < numberOfBins; j++){
                 if (resCap[j] >= item[i]){
@@ -28,7 +28,7 @@ class B2F{
                     for (int k = i; k < n; k++){
                         for (int l = i; l < n; l++ ){
                             int pair = item[k] + item[l];
-                            if (resCap[j] + smallestItem - pair >= 0 && pair > smallestItem && pair > (cap * (1/6))){
+                            if (resCap[j] + smallestItem - pair >= 0 && pair > smallestItem && pair > (cap * (1/6)) && k != l){
                                 if (pair > replacer[4]){
                                     replacer[0] = j;
                                     replacer[1] = smallestItem;
@@ -43,6 +43,7 @@ class B2F{
                 }
                 // updates item and bins with largest feasible pair found
                 if (replacer[4] != 0){
+                    // System.out.print("Replacing " + replacer[1] + " in " + replacer[0] + " with " + item[replacer[2]] + " and " + item[replacer[3]] + "\n");
                     bins.get(replacer[0]).set(replacer[5] - 1, item[replacer[2]]);
                     bins.get(replacer[0]).add(item[replacer[3]]);
                     item[replacer[2]] = 0;
@@ -60,16 +61,16 @@ class B2F{
         return numberOfBins;
     }
     
-    static int firstFitDecreasing(Integer item[], int n, int cap) {
+    static int bestTwoFitDecreasing(Integer item[], int n, int cap) {
         Arrays.sort(item, Collections.reverseOrder());
-        return firstFit(item, n, cap);
+        return bestTwoFit(item, n, cap);
     }
 
     public static void main( String[] args ) {
-        // B2F works for these values, haven't tried any others yet
-        Integer items[] = {6, 3, 2, 2};
+        // B2F tested for: {6,3,2,2},{5,4,3,2},{4,4,3,3},{7,3,3,3,3,2,1}
+        Integer items[] = {4, 4, 3, 3};
         int cap = 10;
         int n = items.length;
-        System.out.print("Number of bins required in First Fit Decreasing: " + firstFitDecreasing(items, n, cap) + "\n");
+        System.out.print("Number of bins required in First Fit Decreasing: " + bestTwoDecreasing(items, n, cap) + "\n");
     }
 }
