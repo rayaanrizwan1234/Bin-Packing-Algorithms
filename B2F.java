@@ -1,6 +1,6 @@
 import java.util.Arrays;
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.io.File;
@@ -32,7 +32,7 @@ class B2F{
                     for (int k = i; k < n; k++){
                         for (int l = i; l < n; l++ ){
                             int pair = item[k] + item[l];
-                            if (resCap[j] + smallestItem - pair >= 0 && pair > smallestItem && pair > (cap * (1/6)) && k != l && size > 1){
+                            if (resCap[j] + smallestItem - pair >= 0 && pair > smallestItem && pair > (cap/6) && k != l && size > 1){
                                 if (pair > replacer[4]){
                                     replacer[0] = j;
                                     replacer[1] = smallestItem;
