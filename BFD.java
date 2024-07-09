@@ -1,5 +1,9 @@
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Scanner;
+import java.io.FileNotFoundException;  // Import this class to handle errors
+import java.io.File;
+
 class BFD {
     static int bestFit(Integer item[], int n, int cap) {
         int numberOfBins = 0;
@@ -12,12 +16,10 @@ class BFD {
                 if ((resCap[j] >= item[i]) && resCap[j] - item[i] < min){
                     bi = j;
                     min = resCap[j] - item[i];
-                    System.out.print("Putting " + item[i] + " in bin " + (j+1)+ "\n");
                 }
             }
             if (min == cap + 1) {
                 resCap[numberOfBins] = cap - item[i];
-                System.out.print("Putting " + item[i] + " in bin " + (numberOfBins+1)+ "\n");
                 numberOfBins++;
             }
             else
@@ -32,9 +34,26 @@ class BFD {
     }
 
     public static void main( String[] args ) {
-        Integer items[] = {7, 5, 4, 1, 3};
-        int cap = 10;
-        int n = items.length;
-        System.out.print("Number of bins required in Best Fit Decreasing: " + bestFitDecreasing(items, n, cap) + "\n");
+        try {
+            File binText = new File("binpack1.txt");
+            Scanner textReader = new Scanner(binText);
+            int problems = Integer.parseInt(textReader.nextLine());
+            for (int i = 0; i < problems; i++){
+                System.out.print("Problem:" + textReader.nextLine() + "\n");
+                String data = textReader.nextLine().trim();
+                int cap = Integer.parseInt(data.substring(0, 3));
+                int n = Integer.parseInt(data.substring(4,7));
+                Integer []item = new Integer[n];
+                for (int j = 0; j < n; j++){
+                    data = textReader.nextLine();
+                    item[j] = Integer.parseInt(data);
+                }
+                System.out.print("Number of bins required in Best Fit Decreasing: " + bestFitDecreasing(item, n, cap) + "\n");
+            }
+        }
+        catch (FileNotFoundException e) {
+            System.out.print("An error occured.\n");
+            e.printStackTrace();
+        }
     }
 }
