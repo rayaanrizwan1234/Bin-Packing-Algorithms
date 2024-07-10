@@ -30,7 +30,7 @@ class MFFD{
             resCap[numberOfBins] = cap - item[i];
             bins.get(numberOfBins).add(item[i]);
             item[i] = 0;
-            for (int j = AItems.size(); j < AItems.size() + BItems.size(); j++){
+            for (int j = AItems.size(); j < AItems.size() + BItems.size() ; j++){
                 if (resCap[numberOfBins] >= item[j]){
                     bins.get(numberOfBins).add(item[j]);
                     resCap[numberOfBins] -= item[j];
@@ -48,14 +48,13 @@ class MFFD{
                 int []replacer = {0, 0, 0};
                 int initialStep = AItems.size() + BItems.size();
                 for (int j = initialStep; j < initialStep + SItems.size(); j++){
-                    for (int k = AItems.size() + BItems.size() + SItems.size() - 1; k > SItems.size(); k--){
+                    for (int k = n - remains.size(); k > initialStep; k--){
                         int pair = item[j] + item[k];
-                        if (resCap[i] - pair >= 0 && ((item[j] != 0) && (item[k]) != 0)){
+                        if (resCap[i] - pair >= 0 && ((item[j] != 0) && (item[k]) != 0) && j != k){
                             if (pair > replacer[0]){
                                 replacer[0] = pair;
                                 replacer[1] = j;
                                 replacer[2] = k;
-                                break;
                             }
                         }
                     }
@@ -69,19 +68,18 @@ class MFFD{
                 }
             }
         }
-        // Executing fourth phase: Last pass through 
+        // Executing fourth phase: Last pass through considering any item
         for (i = 0; i < AItems.size(); i++){
             for (int j = AItems.size() + BItems.size(); j < n; j++){
-                if (resCap[i] - item[j] >= 0 && item[j] != 0){
+                if (resCap[i] >= item[j] && item[j] != 0){
                     resCap[i] -= item[j];
                     bins.get(i).add(item[j]);
                     item[j] = 0;
-                    break;
                 }
             }
         }
+        // Executing fifth phase: Performing normal FFD with remaining items.
         for (i = 0; i < n; i++){
-            
             int j;
             for (j = 0; j < numberOfBins; j++){
                 if (resCap[j] >= item[i] && item[i] != 0){
@@ -104,7 +102,7 @@ class MFFD{
 
     public static void main( String[] args ) {
         try {
-            File binText = new File("binpack1.txt");
+            File binText = new File("Testing-Data/binpack1.txt");
             Scanner textReader = new Scanner(binText);
             int problems = Integer.parseInt(textReader.nextLine());
             for (int i = 0; i < problems; i++){

@@ -34,7 +34,7 @@ public class WFD {
 
     public static void main(String[] args) {
         try {
-            File binText = new File("binpack1.txt");
+            File binText = new File("Testing-Data/binpack1.txt");
             Scanner textReader = new Scanner(binText);
             int problems = Integer.parseInt(textReader.nextLine());
             for (int i = 0; i < problems; i++){
