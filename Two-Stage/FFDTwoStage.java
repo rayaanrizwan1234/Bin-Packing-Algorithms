@@ -35,7 +35,7 @@ class FFDTwoStage {
     }
 
     // Method invoked when item and capacity trigger set
-    Integer[] firstFitItemCapacity(Integer items[], int cap) {
+    Integer[] firstFitItemCapacityTrigger(Integer items[], int cap) {
         ArrayList<Integer> notAllocatedItems = new ArrayList<>();
         for (int i = 0; i < items.length; i++) {
             int j;
@@ -62,14 +62,13 @@ class FFDTwoStage {
     boolean firstFitDecreasingBinOrItem(Integer items[], int capacity, double binOrItemRatio, boolean binTrigger) {
         Arrays.sort(items, Collections.reverseOrder());
 
-        double maximumBins = 0;
         if (binTrigger) {
             int sumOfItems = 0;
             for (Integer i : items) {
                 sumOfItems += i;
             }
             
-            maximumBins = (double) sumOfItems / capacity;
+            double maximumBins = (double) sumOfItems / capacity;
             maximumBins = Math.ceil(maximumBins) * binOrItemRatio;
             numOfBins = (int) Math.ceil(maximumBins);
 
@@ -97,7 +96,6 @@ class FFDTwoStage {
 
         int newCap = (int) Math.ceil(capacity * capacityRatio);
 
-        double maximumBins = 0;
         Integer[] items1 = null;
         // Splits bins based on given trigger value
         if (binRatio != 0) {
@@ -105,7 +103,7 @@ class FFDTwoStage {
             for (Integer i : items) {
                 sumOfItems += i;
             }
-            maximumBins = (double) sumOfItems / capacity;
+            double maximumBins = (double) sumOfItems / capacity;
             maximumBins = Math.ceil(maximumBins) * binRatio;
             numOfBins = (int) Math.ceil(maximumBins);
 
@@ -129,7 +127,7 @@ class FFDTwoStage {
                     .toArray(Integer[]::new);
             items = resultArray;
         } else if (binRatio == 0 && itemRatio != 0) {
-            final var unAllocated = firstFitItemCapacity(items1, newCap);
+            final var unAllocated = firstFitItemCapacityTrigger(items1, newCap);
             Integer[] resultArray = Stream.concat(Arrays.stream(unAllocated), Arrays.stream(items))
                     .toArray(Integer[]::new);
             items = resultArray;
@@ -164,12 +162,12 @@ class FFDTwoStage {
                     }
                     // Testing objects
                     FFDTwoStage ffdTwoStageBinTrigger = new FFDTwoStage();
-                    ffdTwoStageBinTrigger.firstFitDecreasingBinOrItem(item, capacity, 0.1, true);
+                    ffdTwoStageBinTrigger.firstFitDecreasingBinOrItem(item, capacity, 0.75, true);
                     System.out.print("Bin trigger " +
                     ffdTwoStageBinTrigger.numOfBins + "\n");
 
                     FFDTwoStage ffdTwoStageItemTrigger = new FFDTwoStage();
-                    ffdTwoStageItemTrigger.firstFitDecreasingBinOrItem(item, capacity, 0.1, false);
+                    ffdTwoStageItemTrigger.firstFitDecreasingBinOrItem(item, capacity, 0.65, false);
                     System.out.print("Item trigger " +
                     ffdTwoStageItemTrigger.numOfBins + "\n");
 
