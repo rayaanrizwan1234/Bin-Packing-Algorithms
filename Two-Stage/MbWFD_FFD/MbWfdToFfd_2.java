@@ -5,16 +5,15 @@ import java.util.Collections;
 import java.util.Scanner;
 import java.io.File;
 
-public class MbWfdToFfd {
-    // MB(WFD) to FFD
+// MB(WFD) to FFD with item trigger
+public class MbWfdToFfd_2 {
     ArrayList<Integer> resCap = new ArrayList<>();
     int numOfBins = 0;
     int capacity;
 
     // Stage 1 MB(WFD) wiht bin limit
-    Integer[] MbWfd(Integer[] items) {
+    Boolean MbWfd(Integer[] items) {
         ArrayList<Integer> notAllocatedItems = new ArrayList<>();
-        
         for (int item : items) {
             int max = -1;
             int maxBin = -1;
@@ -32,7 +31,7 @@ public class MbWfdToFfd {
             }
         }
 
-        return notAllocatedItems.toArray(new Integer[0]);
+        return notAllocatedItems.size() > 0 ? false : true;
     }
 
     boolean firstFit(Integer items[]) {
@@ -56,24 +55,48 @@ public class MbWfdToFfd {
     }
 
 
-    void hybridMbWfdToFfd(Integer[] items, int capacity, double binRatio) {
+    void hybridMbWfdToFfd(Integer[] items, int capacity, double itemRatio) {
         Arrays.sort(items, Collections.reverseOrder());
-
-        int sumOfItems = 0;
-        for(int i : items) {
-            sumOfItems += i;
-        }
-
-        double maximumBins = (double) sumOfItems / capacity;
-        maximumBins = Math.ceil(maximumBins) * binRatio;
-        numOfBins = (int) Math.ceil(maximumBins);
-
-        resCap.addAll(Collections.nCopies(numOfBins, capacity));
 
         this.capacity = capacity;
 
-        items = MbWfd(items);
-        firstFit(items);
+        int numItems1 = (int) Math.ceil(items.length * itemRatio);
+
+        final var items1 = Arrays.copyOfRange(items, 0, numItems1);
+        final var items2 = Arrays.copyOfRange(items, numItems1, items.length);
+
+        int sumOfItems = 0;
+        for (Integer i : items1) {
+            sumOfItems += i;
+        }
+
+        // run binary search over different m values
+        int lowerBound = (int) Math.ceil((double) sumOfItems / capacity);
+        int upperBound = 2 * lowerBound;
+        numOfBins = (int) lowerBound;
+
+        ArrayList<Integer> tempResCap = new ArrayList<>();
+        int min = upperBound;
+        while (lowerBound <= upperBound) {
+            int middle = lowerBound + ((upperBound - lowerBound) /2);
+            this.numOfBins = middle;
+            resCap.clear();
+            resCap.addAll(Collections.nCopies(numOfBins, capacity));
+            final var success = MbWfd(items1);
+
+            if (!success) {
+                lowerBound = middle + 1;
+            } 
+             else {
+                tempResCap = new ArrayList<>(resCap);
+                min = middle;
+                upperBound = middle - 1;
+             }
+        }
+        resCap = tempResCap;
+        numOfBins = min;
+
+        firstFit(items2);
     }
 
     public static void main(String[] args) {
@@ -93,7 +116,7 @@ public class MbWfdToFfd {
                         item[j] = Integer.parseInt(data);
                     }
                     // Testing objects
-                    MbWfdToFfd res = new MbWfdToFfd();
+                    MbWfdToFfd_2 res = new MbWfdToFfd_2();
                     res.hybridMbWfdToFfd(item, capacity, 0.75);
                     System.out.println("Number of bins used "+ res.numOfBins);
                 }
@@ -106,7 +129,7 @@ public class MbWfdToFfd {
         }
         // Integer[] items = new Integer[] {6, 6, 5, 5, 4, 3, 3, 2, 1, 1};
         // int capacity = 10;
-        // MbWfdToFfd res = new MbWfdToFfd();
+        // MbWfdToFfd_2 res = new MbWfdToFfd_2();
         // res.hybridMbWfdToFfd(items, capacity, 0.67);
     }   
 }
