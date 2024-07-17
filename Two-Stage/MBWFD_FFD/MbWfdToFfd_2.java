@@ -35,19 +35,19 @@ public class MbWfdToFfd_2 {
     }
 
     boolean firstFit(Integer items[]) {
-        for (int i = 0; i < items.length; i++) {
+        for (int item : items) {
             int j;
             boolean allocated = false;
             for (j = 0; j < numOfBins; j++) {
-                if (resCap.get(j) >= items[i]) {
-                    final var res = resCap.get(j) - items[i];
+                if (resCap.get(j) >= item) {
+                    final var res = resCap.get(j) - item;
                     resCap.set(j, res);
                     allocated = true;
                     break;
                 }
             }
             if (j == numOfBins && !allocated) {
-                resCap.add(capacity - items[i]);
+                resCap.add(capacity - item);
                 numOfBins++;
             }
         }
@@ -117,7 +117,7 @@ public class MbWfdToFfd_2 {
                     }
                     // Testing objects
                     MbWfdToFfd_2 res = new MbWfdToFfd_2();
-                    res.hybridMbWfdToFfd(item, capacity, 0.75);
+                    res.hybridMbWfdToFfd(item, capacity, 0.450);
                     System.out.println("Number of bins used "+ res.numOfBins);
                 }
             } catch (NumberFormatException e) {
