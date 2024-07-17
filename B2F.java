@@ -13,24 +13,28 @@ class B2F{
         resCap[0] = cap;
         for (int i = 0; i < n; i++){
             // System.out.print(item[i] + "\n");
+            // checks if item has already been inserted into a bin.
             if (item[i] == 0) continue;
             int j;
+            // checks if item fits into any bin normally.
             for (j = 0; j < numberOfBins; j++){
                 if (resCap[j] >= item[i]){
                     bins.get(j).add(item[i]);
                     resCap[j] -= item[i];
+                    item[i] = 0;
                     break;
                 }
             }
             if (j == numberOfBins){
                 // this holds : bin where swap occured, smallest item in that bin, k value, l value, largest feasible pair found, the size of that bin
                 int []replacer = { 0, 0, 0, 0, 0, 0 };
-                // checks whether any feasible swaps are possible
+                // checks whether any feasible swaps are possible with the smallest item in each bin.
                 for (j = 0; j < numberOfBins; j++){
                     int size = bins.get(j).size();
                     int smallestItem = (bins.get(j).get(size - 1));
                     for (int k = i; k < n; k++){
-                        for (int l = i; l < n; l++ ){
+                        for (int l = k; l < n; l++ ){
+                            // checks the pair to see if it's iterative and stores in replacer if it's best feasible pair found yet.
                             int pair = item[k] + item[l];
                             if (resCap[j] + smallestItem - pair >= 0 && pair > smallestItem && pair > (cap/6) && k != l && size > 1){
                                 if (pair > replacer[4]){
@@ -43,6 +47,8 @@ class B2F{
                                 }
                             }
                         }
+                        // checks and breaks the iterative loop if feasible solution found is optimal (0 residual capacity)
+                        if (resCap[j] - replacer[4] == 0) break;
                     }
                 }
                 // updates item and bins with largest feasible pair found if there has been one found
@@ -72,8 +78,9 @@ class B2F{
 
     public static void main( String[] args ) {
         try {
-            File binText = new File("Testing-Data/binpack1.txt");
+            File binText = new File("Testing-Data/binpack3.txt");
             Scanner textReader = new Scanner(binText);
+            long startTime = System.nanoTime();
             int problems = Integer.parseInt(textReader.nextLine());
             for (int i = 0; i < problems; i++){
                 System.out.print("Problem:" + textReader.nextLine() + "\n");
@@ -87,6 +94,8 @@ class B2F{
                 }
                 System.out.print("Number of bins required in Best Two Fit: " + bestTwoFitDecreasing(item, n, cap) + "\n");
             }
+            long endTime = System.nanoTime();
+            System.out.print("Time taken: " + (endTime - startTime) / 1000000  + "ms\n");
         }
         catch (FileNotFoundException e) {
             System.out.print("An error occured.\n");
