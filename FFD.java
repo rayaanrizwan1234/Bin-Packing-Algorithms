@@ -32,27 +32,48 @@ class FFD {
 
     public static void main(String[] args) {
         try {
-            File binText = new File("Testing-Data/binpack1.txt");
-            try (Scanner textReader = new Scanner(binText)) {
-                int problems = Integer.parseInt(textReader.nextLine());
-                for (int i = 0; i < problems; i++) {
-                    System.out.print("Problem:" + textReader.nextLine() + "\n");
-                    String data = textReader.nextLine().trim();
-                    int cap = Integer.parseInt(data.substring(0, 3));
-                    int n = Integer.parseInt(data.substring(4, 7));
+            // File binText = new File("Testing-Data/binpack1.txt");
+            // try (Scanner textReader = new Scanner(binText)) {
+            //     long startTime = System.nanoTime();
+            //     int problems = Integer.parseInt(textReader.nextLine());
+            //     for (int i = 0; i < problems; i++) {
+            //         System.out.print("Problem:" + textReader.nextLine() + "\n");
+            //         String data = textReader.nextLine().trim();
+            //         int cap = Integer.parseInt(data.substring(0, 3));
+            //         int n = Integer.parseInt(data.substring(4, 7));
+            //         Integer[] item = new Integer[n];
+            //         int lowerBound = 0;
+            //         for (int j = 0; j < n; j++) {
+            //             data = textReader.nextLine();
+            //             item[j] = Integer.parseInt(data);
+            //             lowerBound += item[j];
+            //         }
+            //         System.out.println("Lower Bound of Bins is: " + lowerBound / cap );
+            //         System.out.print("Number of bins required in First Fit Decreasing: " + firstFitDecreasing(item, n, cap) + "\n");
+            //     }
+            File folder = new File("Testing-Data/Waescher");
+            File[] listOfFiles = folder.listFiles();
+            long startTime = System.nanoTime();
+            for (File file : listOfFiles) {
+                System.out.println(file.getName());   
+                try (Scanner textReader = new Scanner(file)) {
+                    int n = Integer.parseInt(textReader.nextLine());
+                    int cap = Integer.parseInt(textReader.nextLine());
                     Integer[] item = new Integer[n];
+                    int lowerBound = 0;
                     for (int j = 0; j < n; j++) {
-                        data = textReader.nextLine();
+                        String data = textReader.nextLine();
                         item[j] = Integer.parseInt(data);
+                        lowerBound += item[j];
                     }
-                    System.out.print("Number of bins required in First Fit Decreasing: " + firstFitDecreasing(item, n, cap) + "\n");
-                }
-            } catch (NumberFormatException e) {
+                    System.out.println("Lower Bound of Bins is " + lowerBound / cap );
+                    System.out.print("Number of bins required om First Fit Decreasing: " + firstFitDecreasing(item, n, cap) + "\n");
+                    }
+            }
+            long endTime = System.nanoTime();
+            System.out.println("Time taken: " + (endTime - startTime) / 1000000  + "ms\n");
+            } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-        } catch (FileNotFoundException e) {
-            System.out.print("An error occured.\n");
-            e.printStackTrace();
-        }
     }
 }
