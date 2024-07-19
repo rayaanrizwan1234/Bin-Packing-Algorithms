@@ -31,7 +31,7 @@ class MFFD{
             bins.get(numberOfBins).add(item[i]);
             item[i] = 0;
             for (int j = AItems.size(); j < AItems.size() + BItems.size() ; j++){
-                if (resCap[numberOfBins] >= item[j]){
+                if (resCap[numberOfBins] >= item[j] && item[j] != 0){
                     bins.get(numberOfBins).add(item[j]);
                     resCap[numberOfBins] -= item[j];
                     item[j] = 0;
@@ -48,7 +48,7 @@ class MFFD{
                 int []replacer = {0, 0, 0};
                 int initialStep = AItems.size() + BItems.size();
                 for (int j = initialStep; j < initialStep + SItems.size(); j++){
-                    for (int k = n - remains.size(); k > initialStep; k--){
+                    for (int k = n - remains.size(); k > j; k--){
                         int pair = item[j] + item[k];
                         if (resCap[i] - pair >= 0 && ((item[j] != 0) && (item[k]) != 0) && j != k){
                             if (pair > replacer[0]){
@@ -102,8 +102,9 @@ class MFFD{
 
     public static void main( String[] args ) {
         try {
-            File binText = new File("Testing-Data/binpack1.txt");
+            File binText = new File("Testing-Data/binpack2.txt");
             Scanner textReader = new Scanner(binText);
+            long startTime = System.nanoTime();
             int problems = Integer.parseInt(textReader.nextLine());
             for (int i = 0; i < problems; i++){
                 System.out.print("Problem:" + textReader.nextLine() + "\n");
@@ -117,6 +118,8 @@ class MFFD{
                 }
                 System.out.print("Number of bins required in Modified First Fit Decreasing: " + modifiedFirstFitDecreasing(item, n, cap) + "\n");
             }
+            long endTime = System.nanoTime();
+            System.out.print("Time taken: " + (endTime - startTime) / 1000000  + "ms\n");
         }
         catch (FileNotFoundException e) {
             System.out.print("An error occured.\n");
