@@ -5,35 +5,32 @@ import java.util.Collections;
 import java.util.Scanner;
 import java.io.File;
 
-// MB(WFD) to FFD with Bin trigger
-public class MbWfdToBfd_1 {
+// FFD to BFD with bin trigger
+public class FFD_BFD_1 {
     ArrayList<Integer> resCap = new ArrayList<>();
     int numOfBins = 0;
     int capacity;
 
-    // Stage 1 MB(WFD) wiht bin limit
-    Integer[] MbWfd(Integer[] items) {
+    Integer[] firstFit(Integer items[]) {
         ArrayList<Integer> notAllocatedItems = new ArrayList<>();
-        
         for (int item : items) {
-            int max = -1;
-            int maxBin = -1;
-            for (int j = 0; j < resCap.size(); j++) {
-                int remaining = resCap.get(j) - item;
-                if (resCap.get(j) >= item && (remaining > max)) {
-                    maxBin = j;
-                    max = remaining;
+            int j;
+            boolean allocated = false;
+            for (j = 0; j < numOfBins; j++) {
+                if (resCap.get(j) >= item) {
+                    final var res = resCap.get(j) - item;
+                    resCap.set(j, res);
+                    allocated = true;
+                    break;
                 }
             }
-            if (max == -1) {
+            if (j == numOfBins && !allocated) {
                 notAllocatedItems.add(item);
-            } else {
-                resCap.set(maxBin, max);
             }
         }
-
         return notAllocatedItems.toArray(new Integer[0]);
     }
+
 
     boolean bestFitDecreasing(Integer items[]) {
         for (int item : items) {
@@ -57,30 +54,31 @@ public class MbWfdToBfd_1 {
     }
 
 
-    void hybridMbWfdToBfd(Integer[] items, int capacity, double binRatio) {
+    // This method is used to set triggers for number of bins or the number of items
+    boolean ffdToBfd(Integer items[], int capacity, double binRatio) {
         Arrays.sort(items, Collections.reverseOrder());
-
         int sumOfItems = 0;
-        for(int i : items) {
+        for (Integer i : items) {
             sumOfItems += i;
         }
-
+            
         double maximumBins = (double) sumOfItems / capacity;
         maximumBins = Math.ceil(maximumBins) * binRatio;
         numOfBins = (int) Math.ceil(maximumBins);
-
         resCap.addAll(Collections.nCopies(numOfBins, capacity));
 
         this.capacity = capacity;
 
-        items = MbWfd(items);
+        items = firstFit(items);
         bestFitDecreasing(items);
+
+        return true;
     }
 
     public static void main(String[] args) {
         try {
             // Reading data from a file
-            File binText = new File("Testing-Data/test.txt");
+            File binText = new File("Testing-Data/binpack4.txt");
             try (Scanner textReader = new Scanner(binText)) {
                 int problems = Integer.parseInt(textReader.nextLine());
                 for (int i = 0; i < problems; i++) {
@@ -94,9 +92,9 @@ public class MbWfdToBfd_1 {
                         item[j] = Integer.parseInt(data);
                     }
                     // Testing objects
-                    MbWfdToBfd_1 res = new MbWfdToBfd_1();
-                    res.hybridMbWfdToBfd(item, capacity, 0.67);
-                    System.out.println("Number of bins used "+ res.numOfBins);
+                    FFD_BFD_1 hybrid = new FFD_BFD_1();
+                    hybrid.ffdToBfd(item, capacity, 0.5);
+                    System.out.println("Bin trigger " +hybrid.numOfBins + "\n");
                 }
             } catch (NumberFormatException e) {
                 e.printStackTrace();
@@ -105,9 +103,5 @@ public class MbWfdToBfd_1 {
             System.out.print("An error occured.\n");
             e.printStackTrace();
         }
-        // Integer[] items = new Integer[] {6, 6, 5, 5, 4, 3, 3, 2, 1, 1};
-        // int capacity = 10;
-        // MbWfdToBfd_1 res = new MbWfdToBfd_1();
-        // res.hybridMbWfdToFfd(items, capacity, 0.5);
-    }   
+    }
 }
