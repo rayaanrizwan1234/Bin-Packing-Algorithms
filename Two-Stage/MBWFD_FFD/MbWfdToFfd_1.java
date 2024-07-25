@@ -14,7 +14,7 @@ public class MbWfdToFfd_1 {
     // Stage 1 MB(WFD) wiht bin limit
     Integer[] MbWfd(Integer[] items) {
         ArrayList<Integer> notAllocatedItems = new ArrayList<>();
-        
+
         for (int item : items) {
             int max = -1;
             int maxBin = -1;
@@ -55,12 +55,11 @@ public class MbWfdToFfd_1 {
         return true;
     }
 
-
     void hybridMbWfdToFfd(Integer[] items, int capacity, double binRatio) {
         Arrays.sort(items, Collections.reverseOrder());
 
         int sumOfItems = 0;
-        for(int i : items) {
+        for (int i : items) {
             sumOfItems += i;
         }
 
@@ -94,8 +93,8 @@ public class MbWfdToFfd_1 {
                     }
                     // Testing objects
                     MbWfdToFfd_1 res = new MbWfdToFfd_1();
-                    res.hybridMbWfdToFfd(item, capacity, 0.35);
-                    System.out.println("Number of bins used "+ res.numOfBins);
+                    res.hybridMbWfdToFfd(item, capacity, 0.80);
+                    System.out.println("Number of bins used " + res.numOfBins + "\n");
                 }
             } catch (NumberFormatException e) {
                 e.printStackTrace();
@@ -108,5 +107,5 @@ public class MbWfdToFfd_1 {
         // int capacity = 10;
         // MbWfdToFfd res = new MbWfdToFfd();
         // res.hybridMbWfdToFfd(items, capacity, 0.67);
-    }   
+    }
 }

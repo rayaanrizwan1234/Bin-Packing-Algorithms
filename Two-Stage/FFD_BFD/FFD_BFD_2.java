@@ -31,7 +31,6 @@ public class FFD_BFD_2 {
         return true;
     }
 
-
     boolean bestFitDecreasing(Integer items[]) {
         for (int item : items) {
             int min = capacity + 1;
@@ -53,7 +52,6 @@ public class FFD_BFD_2 {
         return true;
     }
 
-
     // This method is used to set triggers for number of bins or the number of items
     boolean ffdToBfd(Integer items[], int capacity, double itemRatio) {
         Arrays.sort(items, Collections.reverseOrder());
@@ -74,14 +72,16 @@ public class FFD_BFD_2 {
     public static void main(String[] args) {
         try {
             // Reading data from a file
-            File binText = new File("Testing-Data/binpack3.txt");
+            File binText = new File("Testing-Data/binpack4.txt");
             try (Scanner textReader = new Scanner(binText)) {
                 int problems = Integer.parseInt(textReader.nextLine());
+                // Record the start time
+                long startTime = System.nanoTime();
                 for (int i = 0; i < problems; i++) {
                     System.out.print("Problem:" + textReader.nextLine() + "\n");
                     String data = textReader.nextLine().trim();
                     int capacity = Integer.parseInt(data.substring(0, 3));
-                    int n = Integer.parseInt(data.substring(4, 7));
+                    int n = Integer.parseInt(data.substring(4, 8));
                     Integer[] item = new Integer[n];
                     for (int j = 0; j < n; j++) {
                         data = textReader.nextLine();
@@ -89,9 +89,14 @@ public class FFD_BFD_2 {
                     }
                     // Testing objects
                     FFD_BFD_2 hybrid = new FFD_BFD_2();
-                    hybrid.ffdToBfd(item, capacity, 0.75);
-                    System.out.println("Item trigger " +hybrid.numOfBins + "\n");
+                    hybrid.ffdToBfd(item, capacity, 0.2);
+                    System.out.println("Item trigger " + hybrid.numOfBins + "\n");
                 }
+                long endTime = System.nanoTime();
+                // Calculate the elapsed time
+                long elapsedTime = endTime - startTime;
+
+                System.out.println("Execution time in ms: " + elapsedTime / 1000000);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
@@ -99,5 +104,31 @@ public class FFD_BFD_2 {
             System.out.print("An error occured.\n");
             e.printStackTrace();
         }
+
+        // try {
+        // // Reading data from a file
+        // File binText = new File("Testing-Data/irnich1.txt");
+        // try (Scanner textReader = new Scanner(binText)) {
+        // int problems = 1;
+        // for (int i = 0; i < problems; i++) {
+        // int n = Integer.parseInt(textReader.nextLine());
+        // int capacity = Integer.parseInt(textReader.nextLine());
+        // Integer[] item = new Integer[n];
+        // for (int j = 0; j < n; j++) {
+        // String data = textReader.nextLine();
+        // item[j] = Integer.parseInt(data);
+        // }
+        // // Testing objects
+        // FFD_BFD_2 hybrid = new FFD_BFD_2();
+        // hybrid.ffdToBfd(item, capacity, 0.67);
+        // System.out.println("Bin trigger " +hybrid.numOfBins + "\n");
+        // }
+        // } catch (NumberFormatException e) {
+        // e.printStackTrace();
+        // }
+        // } catch (FileNotFoundException e) {
+        // System.out.print("An error occured.\n");
+        // e.printStackTrace();
+        // }
     }
 }

@@ -6,7 +6,6 @@ import java.io.FileNotFoundException; // Import this class to handle errors
 import java.io.File;
 import java.util.stream.Stream;
 
-
 class BFD_FFDTwoStageBin {
     ArrayList<Integer> resCap = new ArrayList<>();
     int numOfBins = 0;
@@ -19,22 +18,15 @@ class BFD_FFDTwoStageBin {
             int bi = 0;
             boolean allocated = false;
             for (j = 0; j < numOfBins; j++) {
-                if ((resCap.get(j) >= items[i]) && resCap.get(j) - items[i] < min){
+                if ((resCap.get(j) >= items[i]) && resCap.get(j) - items[i] < min) {
                     bi = j;
                     min = resCap.get(j) - items[i];
                     allocated = true;
                 }
             }
             if (min == cap + 1) {
-                if (stage == 1 && !allocated) {
-                    notAllocatedItems.add(items[i]);
-                }
-                if (stage == 2 && !allocated){
-                    resCap.add(cap - items[i]);
-                    numOfBins++;
-                }
-            }
-            else{
+                notAllocatedItems.add(items[i]);
+            } else {
                 final var res = resCap.get(bi) - items[i];
                 resCap.set(bi, res);
             }
@@ -42,8 +34,7 @@ class BFD_FFDTwoStageBin {
         return notAllocatedItems.toArray(new Integer[0]);
     }
 
-    Integer[] firstFit(Integer items[], int cap, int stage) {
-        ArrayList<Integer> notAllocatedItems = new ArrayList<>();
+    boolean firstFit(Integer items[], int cap, int stage) {
         for (int i = 0; i < items.length; i++) {
             int j;
             boolean allocated = false;
@@ -55,15 +46,12 @@ class BFD_FFDTwoStageBin {
                     break;
                 }
             }
-            if (stage == 1 && !allocated) {
-                notAllocatedItems.add(items[i]);
-            }
             if (stage == 2 && j == numOfBins && !allocated) {
                 resCap.add(cap - items[i]);
                 numOfBins++;
             }
         }
-        return notAllocatedItems.toArray(new Integer[0]);
+        return true;
     }
 
     // This method is used to set triggers for number of bins or the number of items
@@ -73,7 +61,7 @@ class BFD_FFDTwoStageBin {
         for (Integer i : items) {
             sumOfItems += i;
         }
-            
+
         double maximumBins = (double) sumOfItems / capacity;
         maximumBins = Math.ceil(maximumBins) * binRatio;
         numOfBins = (int) Math.ceil(maximumBins);
@@ -87,7 +75,7 @@ class BFD_FFDTwoStageBin {
     public static void main(String[] args) {
         try {
             // Reading data from a file
-            File binText = new File("../../Testing-Data/binpack4.txt");
+            File binText = new File("Testing-Data/binpack4.txt");
             try (Scanner textReader = new Scanner(binText)) {
                 int problems = Integer.parseInt(textReader.nextLine());
                 for (int i = 0; i < problems; i++) {
@@ -102,9 +90,9 @@ class BFD_FFDTwoStageBin {
                     }
                     // Testing objects
                     BFD_FFDTwoStageBin ffdTwoStageBinTrigger = new BFD_FFDTwoStageBin();
-                    ffdTwoStageBinTrigger.firstFitDecreasingBinOrItem(item, capacity, 0.75);
-                    System.out.print("Bin trigger " +
-                    ffdTwoStageBinTrigger.numOfBins + "\n");
+                    ffdTwoStageBinTrigger.firstFitDecreasingBinOrItem(item, capacity, 0.9);
+                    System.out.println("Bin trigger " +
+                            ffdTwoStageBinTrigger.numOfBins + "\n");
                 }
             } catch (NumberFormatException e) {
                 e.printStackTrace();

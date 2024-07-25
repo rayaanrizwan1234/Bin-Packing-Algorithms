@@ -4,58 +4,50 @@ import java.util.Collections;
 import java.util.Scanner;
 import java.io.FileNotFoundException; // Import this class to handle errors
 import java.io.File;
-import java.util.stream.Stream;
-
 
 class BFD_FFDTwoStageItem {
     ArrayList<Integer> resCap = new ArrayList<>();
     int numOfBins = 0;
 
-    Integer[] bestFit(Integer items[], int cap) {
-        ArrayList<Integer> notAllocatedItems = new ArrayList<>();
-        for (int i = 0; i < items.length; i++) {
-            int j;
-            int min = cap + 1;
-            int bi = 0;
-            boolean allocated = false;
-            for (j = 0; j < numOfBins; j++) {
-                if ((resCap.get(j) >= items[i]) && resCap.get(j) - items[i] < min){
-                    bi = j;
-                    min = resCap.get(j) - items[i];
-                    allocated = true;
+    boolean bestFit(Integer items[], int capacity) {
+        for (int item : items) {
+            int min = capacity + 1;
+            int minBin = 0;
+            for (int j = 0; j < resCap.size(); j++) {
+                int remaining = resCap.get(j) - item;
+                if (resCap.get(j) >= item && (remaining < min)) {
+                    minBin = j;
+                    min = remaining;
                 }
             }
-            if (min == cap + 1) {
-                resCap.add(cap - items[i]);
+            if (min == capacity + 1) {
+                resCap.add(capacity - item);
                 numOfBins++;
-            }
-            else{
-                final var res = resCap.get(bi) - items[i];
-                resCap.set(bi, res);
+            } else {
+                resCap.set(minBin, min);
             }
         }
-        return notAllocatedItems.toArray(new Integer[0]);
+        return true;
     }
 
-    Integer[] firstFit(Integer items[], int cap) {
-        ArrayList<Integer> notAllocatedItems = new ArrayList<>();
-        for (int i = 0; i < items.length; i++) {
+    boolean firstFit(Integer items[], int capacity) {
+        for (int item : items) {
             int j;
             boolean allocated = false;
             for (j = 0; j < numOfBins; j++) {
-                if (resCap.get(j) >= items[i]) {
-                    final var res = resCap.get(j) - items[i];
+                if (resCap.get(j) >= item) {
+                    final var res = resCap.get(j) - item;
                     resCap.set(j, res);
                     allocated = true;
                     break;
                 }
             }
-            if (j == numOfBins){
-                resCap.add(cap - items[i]);
+            if (j == numOfBins && !allocated) {
+                resCap.add(capacity - item);
                 numOfBins++;
             }
         }
-        return notAllocatedItems.toArray(new Integer[0]);
+        return true;
     }
 
     // This method is used to set triggers for number of bins or the number of items
@@ -74,7 +66,7 @@ class BFD_FFDTwoStageItem {
     public static void main(String[] args) {
         try {
             // Reading data from a file
-            File binText = new File("../../Testing-Data/binpack4.txt");
+            File binText = new File("Testing-Data/binpack4.txt");
             try (Scanner textReader = new Scanner(binText)) {
                 int problems = Integer.parseInt(textReader.nextLine());
                 for (int i = 0; i < problems; i++) {
@@ -89,9 +81,9 @@ class BFD_FFDTwoStageItem {
                     }
                     // Testing objects
                     BFD_FFDTwoStageItem bfdffdTwoStageItemTrigger = new BFD_FFDTwoStageItem();
-                    bfdffdTwoStageItemTrigger.BFD_FFDItem(item, capacity, 0.65);
-                    System.out.print("Item trigger " +
-                    bfdffdTwoStageItemTrigger.numOfBins + "\n");
+                    bfdffdTwoStageItemTrigger.BFD_FFDItem(item, capacity, 0.5);
+                    System.out.println("Item trigger " +
+                            bfdffdTwoStageItemTrigger.numOfBins + "\n");
                 }
             } catch (NumberFormatException e) {
                 e.printStackTrace();

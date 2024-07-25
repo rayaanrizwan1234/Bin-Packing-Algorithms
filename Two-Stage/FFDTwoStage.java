@@ -67,7 +67,7 @@ class FFDTwoStage {
             for (Integer i : items) {
                 sumOfItems += i;
             }
-            
+
             double maximumBins = (double) sumOfItems / capacity;
             maximumBins = Math.ceil(maximumBins) * binOrItemRatio;
             numOfBins = (int) Math.ceil(maximumBins);
@@ -162,19 +162,19 @@ class FFDTwoStage {
                     }
                     // Testing objects
                     FFDTwoStage ffdTwoStageBinTrigger = new FFDTwoStage();
-                    ffdTwoStageBinTrigger.firstFitDecreasingBinOrItem(item, capacity, 0.75, true);
+                    ffdTwoStageBinTrigger.firstFitDecreasingBinOrItem(item, capacity, 0.2, true);
                     System.out.print("Bin trigger " +
-                    ffdTwoStageBinTrigger.numOfBins + "\n");
+                            ffdTwoStageBinTrigger.numOfBins + "\n");
+
+                    FFDTwoStage ffdTwoStageBinItemCapacityTrigger = new FFDTwoStage();
+                    ffdTwoStageBinItemCapacityTrigger.firstFitDecreasingCapacity(item, capacity, 0.5, 0, 0.67);
+                    System.out.print("Bin Item Capacity trigger " +
+                            ffdTwoStageBinItemCapacityTrigger.numOfBins + "\n");
 
                     FFDTwoStage ffdTwoStageItemTrigger = new FFDTwoStage();
                     ffdTwoStageItemTrigger.firstFitDecreasingBinOrItem(item, capacity, 0.65, false);
                     System.out.print("Item trigger " +
-                    ffdTwoStageItemTrigger.numOfBins + "\n");
-
-                    FFDTwoStage ffdTwoStageBinItemCapacityTrigger = new FFDTwoStage();
-                    ffdTwoStageBinItemCapacityTrigger.firstFitDecreasingCapacity(item, capacity, 0.4, 0.5, 0.6);
-                    System.out.print("Bin Item Capacity trigger " +
-                    ffdTwoStageBinItemCapacityTrigger.numOfBins + "\n");
+                            ffdTwoStageItemTrigger.numOfBins + "\n");
                 }
             } catch (NumberFormatException e) {
                 e.printStackTrace();

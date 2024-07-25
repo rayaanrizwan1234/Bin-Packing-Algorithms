@@ -14,7 +14,7 @@ public class MbWfdToBfd_1 {
     // Stage 1 MB(WFD) wiht bin limit
     Integer[] MbWfd(Integer[] items) {
         ArrayList<Integer> notAllocatedItems = new ArrayList<>();
-        
+
         for (int item : items) {
             int max = -1;
             int maxBin = -1;
@@ -56,12 +56,11 @@ public class MbWfdToBfd_1 {
         return true;
     }
 
-
     void hybridMbWfdToBfd(Integer[] items, int capacity, double binRatio) {
         Arrays.sort(items, Collections.reverseOrder());
 
         int sumOfItems = 0;
-        for(int i : items) {
+        for (int i : items) {
             sumOfItems += i;
         }
 
@@ -80,9 +79,10 @@ public class MbWfdToBfd_1 {
     public static void main(String[] args) {
         try {
             // Reading data from a file
-            File binText = new File("Testing-Data/test.txt");
+            File binText = new File("Testing-Data/binpack4.txt");
             try (Scanner textReader = new Scanner(binText)) {
                 int problems = Integer.parseInt(textReader.nextLine());
+                long startTime = System.nanoTime();
                 for (int i = 0; i < problems; i++) {
                     System.out.print("Problem:" + textReader.nextLine() + "\n");
                     String data = textReader.nextLine().trim();
@@ -96,8 +96,18 @@ public class MbWfdToBfd_1 {
                     // Testing objects
                     MbWfdToBfd_1 res = new MbWfdToBfd_1();
                     res.hybridMbWfdToBfd(item, capacity, 0.67);
-                    System.out.println("Number of bins used "+ res.numOfBins);
+                    System.out.println("Number of bins used " + res.numOfBins);
                 }
+                long endTime = System.nanoTime();
+                // Calculate the elapsed time in nanoseconds
+                long elapsedTime = endTime - startTime;
+
+                // Convert elapsed time to milliseconds (optional)
+                double elapsedTimeInMillis = elapsedTime / 1_000_000.0;
+
+                // Print the elapsed time
+                System.out.println("Elapsed time in milliseconds: " + elapsedTimeInMillis);
+
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
@@ -109,5 +119,5 @@ public class MbWfdToBfd_1 {
         // int capacity = 10;
         // MbWfdToBfd_1 res = new MbWfdToBfd_1();
         // res.hybridMbWfdToFfd(items, capacity, 0.5);
-    }   
+    }
 }

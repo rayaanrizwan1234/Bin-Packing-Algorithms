@@ -54,7 +54,6 @@ public class MbWfdToFfd_3 {
         return true;
     }
 
-
     void hybridMbWfdToFfd(Integer[] items, int capacity, double capacityRatio, double itemRatio) {
         Arrays.sort(items, Collections.reverseOrder());
 
@@ -80,7 +79,7 @@ public class MbWfdToFfd_3 {
         ArrayList<Integer> tempResCap = new ArrayList<>();
         int min = upperBound;
         while (lowerBound <= upperBound) {
-            int middle = lowerBound + ((upperBound - lowerBound) /2);
+            int middle = lowerBound + ((upperBound - lowerBound) / 2);
             this.numOfBins = middle;
             resCap.clear();
             resCap.addAll(Collections.nCopies(numOfBins, newCapacity));
@@ -88,12 +87,11 @@ public class MbWfdToFfd_3 {
 
             if (!success) {
                 lowerBound = middle + 1;
-            } 
-             else {
+            } else {
                 tempResCap = new ArrayList<>(resCap);
                 min = middle;
                 upperBound = middle - 1;
-             }
+            }
         }
         resCap = tempResCap;
         numOfBins = min;
@@ -110,37 +108,37 @@ public class MbWfdToFfd_3 {
     }
 
     public static void main(String[] args) {
-        // try {
-        //     // Reading data from a file
-        //     File binText = new File("Testing-Data/binpack4.txt");
-        //     try (Scanner textReader = new Scanner(binText)) {
-        //         int problems = Integer.parseInt(textReader.nextLine());
-        //         for (int i = 0; i < problems; i++) {
-        //             System.out.print("Problem:" + textReader.nextLine() + "\n");
-        //             String data = textReader.nextLine().trim();
-        //             int capacity = Integer.parseInt(data.substring(0, 3));
-        //             int n = Integer.parseInt(data.substring(4, 8));
-        //             Integer[] item = new Integer[n];
-        //             for (int j = 0; j < n; j++) {
-        //                 data = textReader.nextLine();
-        //                 item[j] = Integer.parseInt(data);
-        //             }
-        //             // Testing objects
-        //             MbWfdToFfd_3 res = new MbWfdToFfd_3();
-        //             res.hybridMbWfdToFfd(item, capacity, 0.5, 0.75);
-        //             System.out.println("Number of bins used "+ res.numOfBins);
-        //         }
-        //     } catch (NumberFormatException e) {
-        //         e.printStackTrace();
-        //     }
-        // } catch (FileNotFoundException e) {
-        //     System.out.print("An error occured.\n");
-        //     e.printStackTrace();
-        // }
-        Integer[] items = new Integer[] {6, 6, 5, 5, 4, 3, 3, 2, 1, 1};
-        int capacity = 10;
-        MbWfdToFfd_3 res = new MbWfdToFfd_3();
-        res.hybridMbWfdToFfd(items, capacity, 0.5, 0.75);
-        System.out.println("Number of bins used "+ res.numOfBins);
-    }   
+        try {
+            // Reading data from a file
+            File binText = new File("Testing-Data/binpack4.txt");
+            try (Scanner textReader = new Scanner(binText)) {
+                int problems = Integer.parseInt(textReader.nextLine());
+                for (int i = 0; i < problems; i++) {
+                    System.out.print("Problem:" + textReader.nextLine() + "\n");
+                    String data = textReader.nextLine().trim();
+                    int capacity = Integer.parseInt(data.substring(0, 3));
+                    int n = Integer.parseInt(data.substring(4, 8));
+                    Integer[] item = new Integer[n];
+                    for (int j = 0; j < n; j++) {
+                        data = textReader.nextLine();
+                        item[j] = Integer.parseInt(data);
+                    }
+                    // Testing objects
+                    MbWfdToFfd_3 res = new MbWfdToFfd_3();
+                    res.hybridMbWfdToFfd(item, capacity, 0.5, 0.75);
+                    System.out.println("Number of bins used " + res.numOfBins);
+                }
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e) {
+            System.out.print("An error occured.\n");
+            e.printStackTrace();
+        }
+        // Integer[] items = new Integer[] {6, 6, 5, 5, 4, 3, 3, 2, 1, 1};
+        // int capacity = 10;
+        // MbWfdToFfd_3 res = new MbWfdToFfd_3();
+        // res.hybridMbWfdToFfd(items, capacity, 0.5, 0.75);
+        // System.out.println("Number of bins used "+ res.numOfBins);
+    }
 }

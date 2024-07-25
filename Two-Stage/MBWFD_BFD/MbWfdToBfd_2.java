@@ -55,7 +55,6 @@ public class MbWfdToBfd_2 {
         return true;
     }
 
-
     void hybridMbWfdToBfd(Integer[] items, int capacity, double itemRatio) {
         Arrays.sort(items, Collections.reverseOrder());
 
@@ -79,7 +78,7 @@ public class MbWfdToBfd_2 {
         ArrayList<Integer> tempResCap = new ArrayList<>();
         int min = upperBound;
         while (lowerBound <= upperBound) {
-            int middle = lowerBound + ((upperBound - lowerBound) /2);
+            int middle = lowerBound + ((upperBound - lowerBound) / 2);
             this.numOfBins = middle;
             resCap.clear();
             resCap.addAll(Collections.nCopies(numOfBins, capacity));
@@ -87,12 +86,11 @@ public class MbWfdToBfd_2 {
 
             if (!success) {
                 lowerBound = middle + 1;
-            } 
-             else {
+            } else {
                 tempResCap = new ArrayList<>(resCap);
                 min = middle;
                 upperBound = middle - 1;
-             }
+            }
         }
         resCap = tempResCap;
         numOfBins = min;
@@ -103,9 +101,10 @@ public class MbWfdToBfd_2 {
     public static void main(String[] args) {
         try {
             // Reading data from a file
-            File binText = new File("Testing-Data/test.txt");
+            File binText = new File("Testing-Data/binpack4.txt");
             try (Scanner textReader = new Scanner(binText)) {
                 int problems = Integer.parseInt(textReader.nextLine());
+                long startTime = System.nanoTime();
                 for (int i = 0; i < problems; i++) {
                     System.out.print("Problem:" + textReader.nextLine() + "\n");
                     String data = textReader.nextLine().trim();
@@ -118,9 +117,18 @@ public class MbWfdToBfd_2 {
                     }
                     // Testing objects
                     MbWfdToBfd_2 res = new MbWfdToBfd_2();
-                    res.hybridMbWfdToBfd(item, capacity, 0.67);
-                    System.out.println("Number of bins used "+ res.numOfBins);
+                    res.hybridMbWfdToBfd(item, capacity, 0.4);
+                    System.out.println("Number of bins used " + res.numOfBins);
                 }
+                long endTime = System.nanoTime();
+                // Calculate the elapsed time in nanoseconds
+                long elapsedTime = endTime - startTime;
+
+                // Convert elapsed time to milliseconds (optional)
+                double elapsedTimeInMillis = elapsedTime / 1_000_000.0;
+
+                // Print the elapsed time
+                System.out.println("Elapsed time in milliseconds: " + elapsedTimeInMillis);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
@@ -132,5 +140,5 @@ public class MbWfdToBfd_2 {
         // int capacity = 10;
         // MbWfdToFfd_2 res = new MbWfdToFfd_2();
         // res.hybridMbWfdToFfd(items, capacity, 0.67);
-    }   
+    }
 }
