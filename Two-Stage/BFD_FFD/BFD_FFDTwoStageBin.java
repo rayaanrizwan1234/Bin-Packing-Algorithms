@@ -4,50 +4,48 @@ import java.util.Collections;
 import java.util.Scanner;
 import java.io.FileNotFoundException; // Import this class to handle errors
 import java.io.File;
-import java.util.stream.Stream;
 
+// BFD to FFD with a bin trigger
 class BFD_FFDTwoStageBin {
     ArrayList<Integer> resCap = new ArrayList<>();
     int numOfBins = 0;
+    int capacity;
 
-    Integer[] bestFit(Integer items[], int cap, int stage) {
+    Integer[] bestFit(Integer items[]) {
         ArrayList<Integer> notAllocatedItems = new ArrayList<>();
-        for (int i = 0; i < items.length; i++) {
-            int j;
-            int min = cap + 1;
-            int bi = 0;
-            boolean allocated = false;
-            for (j = 0; j < numOfBins; j++) {
-                if ((resCap.get(j) >= items[i]) && resCap.get(j) - items[i] < min) {
-                    bi = j;
-                    min = resCap.get(j) - items[i];
-                    allocated = true;
+        for (int item : items) {
+            int min = capacity + 1;
+            int minBin = 0;
+            for (int j = 0; j < numOfBins; j++) {
+                int remaining = resCap.get(j) - item;
+                if ((resCap.get(j) >= item) && remaining < min) {
+                    minBin = j;
+                    min = remaining;
                 }
             }
-            if (min == cap + 1) {
-                notAllocatedItems.add(items[i]);
+            if (min == capacity + 1) {
+                notAllocatedItems.add(item);
             } else {
-                final var res = resCap.get(bi) - items[i];
-                resCap.set(bi, res);
+                resCap.set(minBin, min);
             }
         }
         return notAllocatedItems.toArray(new Integer[0]);
     }
 
-    boolean firstFit(Integer items[], int cap, int stage) {
-        for (int i = 0; i < items.length; i++) {
+    boolean firstFit(Integer items[]) {
+        for (int item : items) {
             int j;
             boolean allocated = false;
             for (j = 0; j < numOfBins; j++) {
-                if (resCap.get(j) >= items[i]) {
-                    final var res = resCap.get(j) - items[i];
+                if (resCap.get(j) >= item) {
+                    final var res = resCap.get(j) - item;
                     resCap.set(j, res);
                     allocated = true;
                     break;
                 }
             }
-            if (stage == 2 && j == numOfBins && !allocated) {
-                resCap.add(cap - items[i]);
+            if (j == numOfBins && !allocated) {
+                resCap.add(capacity - item);
                 numOfBins++;
             }
         }
@@ -55,19 +53,24 @@ class BFD_FFDTwoStageBin {
     }
 
     // This method is used to set triggers for number of bins or the number of items
-    boolean firstFitDecreasingBinOrItem(Integer items[], int capacity, double binRatio) {
+    boolean bfdToFFd(Integer items[], int capacity, double binRatio) {
         Arrays.sort(items, Collections.reverseOrder());
+
         int sumOfItems = 0;
         for (Integer i : items) {
             sumOfItems += i;
         }
 
+        this.capacity = capacity;
+
         double maximumBins = (double) sumOfItems / capacity;
         maximumBins = Math.ceil(maximumBins) * binRatio;
         numOfBins = (int) Math.ceil(maximumBins);
+        
         resCap.addAll(Collections.nCopies(numOfBins, capacity));
-        items = bestFit(items, capacity, 1);
-        firstFit(items, capacity, 2);
+
+        items = bestFit(items);
+        firstFit(items);
 
         return true;
     }
@@ -90,7 +93,7 @@ class BFD_FFDTwoStageBin {
                     }
                     // Testing objects
                     BFD_FFDTwoStageBin ffdTwoStageBinTrigger = new BFD_FFDTwoStageBin();
-                    ffdTwoStageBinTrigger.firstFitDecreasingBinOrItem(item, capacity, 0.9);
+                    ffdTwoStageBinTrigger.bfdToFFd(item, capacity, 0.75);
                     System.out.println("Bin trigger " +
                             ffdTwoStageBinTrigger.numOfBins + "\n");
                 }

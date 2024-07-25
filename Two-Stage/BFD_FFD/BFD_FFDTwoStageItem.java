@@ -81,7 +81,7 @@ class BFD_FFDTwoStageItem {
                     }
                     // Testing objects
                     BFD_FFDTwoStageItem bfdffdTwoStageItemTrigger = new BFD_FFDTwoStageItem();
-                    bfdffdTwoStageItemTrigger.BFD_FFDItem(item, capacity, 0.5);
+                    bfdffdTwoStageItemTrigger.BFD_FFDItem(item, capacity, 0.33);
                     System.out.println("Item trigger " +
                             bfdffdTwoStageItemTrigger.numOfBins + "\n");
                 }

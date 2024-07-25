@@ -6,92 +6,75 @@ import java.io.FileNotFoundException; // Import this class to handle errors
 import java.io.File;
 import java.util.stream.Stream;
 
-
-class BFD_FFDTwoStageCap{
+class BFD_FFDTwoStageCap {
     ArrayList<Integer> resCap = new ArrayList<>();
     int numOfBins = 0;
 
-    Integer[] bestFit(Integer items[], int cap, int stage) {
+    Integer[] bestFit(Integer items[], int cap) {
         ArrayList<Integer> notAllocatedItems = new ArrayList<>();
-        for (int i = 0; i < items.length; i++) {
-            int j;
+        for (int item : items) {
             int min = cap + 1;
-            int bi = 0;
-            boolean allocated = false;
-            for (j = 0; j < numOfBins; j++) {
-                if ((resCap.get(j) >= items[i]) && resCap.get(j) - items[i] < min){
-                    bi = j;
-                    min = resCap.get(j) - items[i];
-                    allocated = true;
+            int minBin = 0;
+            for (int j = 0; j < numOfBins; j++) {
+                int remaining = resCap.get(j) - item;
+                if ((resCap.get(j) >= item) &&  remaining < min){
+                    minBin = j;
+                    min = remaining;
                 }
             }
             if (min == cap + 1) {
-                if (stage == 1 && !allocated) {
-                    notAllocatedItems.add(items[i]);
-                }
-                if (stage == 2 && !allocated){
-                    resCap.add(cap - items[i]);
-                    numOfBins++;
-                }
+                notAllocatedItems.add(item);
             }
-            else{
-                final var res = resCap.get(bi) - items[i];
-                resCap.set(bi, res);
+            else {
+                resCap.set(minBin, min);
             }
         }
         return notAllocatedItems.toArray(new Integer[0]);
     }
 
-    Integer[] firstFit(Integer items[], int cap, int stage) {
-        ArrayList<Integer> notAllocatedItems = new ArrayList<>();
-        for (int i = 0; i < items.length; i++) {
+    boolean firstFit(Integer items[], int capacity) {
+        for (int item : items) {
             int j;
             boolean allocated = false;
             for (j = 0; j < numOfBins; j++) {
-                if (resCap.get(j) >= items[i]) {
-                    final var res = resCap.get(j) - items[i];
-                    resCap.set(j, res);
+                if (resCap.get(j) >= item) {
+                    final var remaining = resCap.get(j) - item;
+                    resCap.set(j, remaining);
                     allocated = true;
                     break;
                 }
             }
-            if (stage == 1 && !allocated) {
-                notAllocatedItems.add(items[i]);
-            }
-            if (stage == 2 && j == numOfBins && !allocated) {
-                resCap.add(cap - items[i]);
+            if (j == numOfBins && !allocated) {
+                resCap.add(capacity - item);
                 numOfBins++;
             }
         }
-        return notAllocatedItems.toArray(new Integer[0]);
+        return true;
     }
 
     Integer[] bestFitItemCapacityTrigger(Integer items[], int cap) {
         ArrayList<Integer> notAllocatedItems = new ArrayList<>();
-        for (int i = 0; i < items.length; i++) {
-            int j;
+        for (int item : items) {
             int min = cap + 1;
-            int bi = 0;
-            boolean allocated = false;
-            for (j = 0; j < numOfBins; j++) {
-                if ((resCap.get(j) >= items[i]) && resCap.get(j) - items[i] < min){
-                    bi = j;
-                    min = resCap.get(j) - items[i];
-                    allocated = true;
+            int minBin = 0;
+            for (int j = 0; j < numOfBins; j++) {
+                int remaining = resCap.get(j) - item ;
+                if ((resCap.get(j) >= item) && remaining < min){
+                    minBin = j;
+                    min = resCap.get(j) - item;
                 }
             }
             if (min == cap + 1) {
-                if (!allocated && (cap >= items[i])) {
-                    resCap.add(cap - items[i]);
+                if (cap >= item) {
+                    resCap.add(cap - item);
                     numOfBins++;
                 }
-                else if (!allocated && (cap < items[i])){
-                    notAllocatedItems.add(items[i]);
+                else {
+                    notAllocatedItems.add(item);
                 }
             }
-            else{
-                final var res = resCap.get(bi) - items[i];
-                resCap.set(bi, res);
+            else {
+                resCap.set(minBin, min);
             }
         }
         return notAllocatedItems.toArray(new Integer[0]);
@@ -121,7 +104,9 @@ class BFD_FFDTwoStageCap{
         if (itemRatio != 0) {
             int numItems1 = (int) Math.ceil(items.length * itemRatio);
 
+            // items for first stage 
             items1 = Arrays.copyOfRange(items, 0, numItems1);
+            // items for second stage
             items = Arrays.copyOfRange(items, numItems1, items.length);
         }
 
@@ -129,7 +114,7 @@ class BFD_FFDTwoStageCap{
         if (binRatio != 0 && itemRatio != 0) {
             // gets the unallocated items from the first stage and passes it onto the second
             // stage
-            final var unAllocated = bestFit(items1, newCap, 1);
+            final var unAllocated = bestFit(items1, newCap);
             Integer[] resultArray = Stream.concat(Arrays.stream(unAllocated), Arrays.stream(items))
                     .toArray(Integer[]::new);
             items = resultArray;
@@ -139,14 +124,14 @@ class BFD_FFDTwoStageCap{
                     .toArray(Integer[]::new);
             items = resultArray;
         } else {
-            items = bestFit(items, newCap, 1);
+            items = bestFit(items, newCap);
         }
 
         for (int i = 0; i < resCap.size(); i++) {
             int cap = resCap.get(i) + capacity - newCap;
             resCap.set(i, cap);
         }
-        firstFit(items, capacity, 2);
+        firstFit(items, capacity);
 
         return true;
     }
@@ -154,7 +139,7 @@ class BFD_FFDTwoStageCap{
     public static void main(String[] args) {
         try {
             // Reading data from a file
-            File binText = new File("../../Testing-Data/binpack4.txt");
+            File binText = new File("Testing-Data/binpack4.txt");
             try (Scanner textReader = new Scanner(binText)) {
                 int problems = Integer.parseInt(textReader.nextLine());
                 for (int i = 0; i < problems; i++) {
@@ -165,11 +150,11 @@ class BFD_FFDTwoStageCap{
                     Integer[] item = new Integer[n];
                     for (int j = 0; j < n; j++) {
                         data = textReader.nextLine();
-                        item[j] = Integer.parseInt(data);
+                                item[j] = Integer.parseInt(data);
                     }
                     // Testing objects
                     BFD_FFDTwoStageCap ffdTwoStageBinItemCapacityTrigger = new BFD_FFDTwoStageCap();
-                    ffdTwoStageBinItemCapacityTrigger.BFD_FFDCapacity(item, capacity, 0.4, 0.5, 0.6);
+                    ffdTwoStageBinItemCapacityTrigger.BFD_FFDCapacity(item, capacity, 0.61, 0, 0.6);
                     System.out.print("Bin Item Capacity trigger " +
                     ffdTwoStageBinItemCapacityTrigger.numOfBins + "\n");
                 }
