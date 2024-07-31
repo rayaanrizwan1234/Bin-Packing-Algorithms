@@ -45,55 +45,45 @@ public class MBWFD {
 
         // run binary search over different m values
         int lowerBound = (int) Math.ceil((double) sumOfItems / capacity);
-        int upperBound = items.length;
-        numOfBins = (int) lowerBound;
+        System.out.println("lower bound = "+lowerBound+"\n");
+        numOfBins = lowerBound - 1;
 
-        ArrayList<Integer> tempResCap = new ArrayList<>();
-        int min = upperBound;
-        while (lowerBound <= upperBound) {
-            int middle = lowerBound + ((upperBound - lowerBound) /2);
-            this.numOfBins = middle;
+        Boolean success = false;
+        while (!success) {
+            numOfBins += 1;
             resCap.clear();
             resCap.addAll(Collections.nCopies(numOfBins, capacity));
-            final var success = mbWfd(items);
-
-            if (!success) {
-                lowerBound = middle + 1;
-            } 
-             else {
-                tempResCap = new ArrayList<>(resCap);
-                min = middle;
-                upperBound = middle - 1;
-             }
+            success = mbWfd(items);
         }
-        resCap = tempResCap;
-        numOfBins = min;
     }
 
     public static void main(String[] args) {
         try {
                 // Reading data from a file
-                File binText = new File("Testing-Data/binpack4.txt");
-                try (Scanner textReader = new Scanner(binText)) {
-                    int problems = Integer.parseInt(textReader.nextLine());
-                    for (int i = 0; i < problems; i++) {
-                        System.out.print("Problem:" + textReader.nextLine() + "\n");
-                        String data = textReader.nextLine().trim();
-                        int capacity = Integer.parseInt(data.substring(0, 3));
-                        int n = Integer.parseInt(data.substring(4, 8));
-                        Integer[] item = new Integer[n];
-                        for (int j = 0; j < n; j++) {
-                            data = textReader.nextLine();
-                            item[j] = Integer.parseInt(data);
-                        }
-                        // Testing objects
-                        MBWFD res = new MBWFD();
-                        res.mbWfdHelper(item, capacity);
-                        System.out.println("Number of bins "+res.numOfBins);
+                long startTime = System.nanoTime();
+                for (int fileIndex = 2000; fileIndex <= 4000; fileIndex += 100) {
+                    String file = "/uolstore/home/users/sc21rr/Desktop/Bin_Packing/algorithms/Bin-Packing-Algorithms/Testing-Data/Complexity Test/" + fileIndex;
+                    File binText = new File(file);
+                    
+                    try (Scanner textReader = new Scanner(binText)) {
+                            System.out.println("Problem:" + fileIndex);
+                            int n = Integer.parseInt(textReader.nextLine());
+                            int capacity = Integer.parseInt(textReader.nextLine());
+                            Integer[] item = new Integer[n];
+                            for (int j = 0; j < n; j++) {
+                                String data = textReader.nextLine();
+                                item[j] = Integer.parseInt(data);
+                            }
+                            // Testing objects
+                            MBWFD res = new MBWFD();
+                            res.mbWfdHelper(item, capacity);
+                            // System.out.println("Number of bins "+res.numOfBins+ "\n");
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
                     }
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
                 }
+                long endTime = System.nanoTime();
+                System.out.println("Time taken: " + (endTime - startTime) / 1000000  + "ms\n");
             }
          catch (FileNotFoundException e) {
             System.out.print("An error occured.\n");
