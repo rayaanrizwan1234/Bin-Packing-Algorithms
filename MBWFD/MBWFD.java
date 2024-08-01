@@ -61,7 +61,7 @@ public class MBWFD {
         try {
                 // Reading data from a file
                 long startTime = System.nanoTime();
-                for (int fileIndex = 2000; fileIndex <= 4000; fileIndex += 100) {
+                for (int fileIndex = 5000; fileIndex <= 6500; fileIndex += 100) {
                     String file = "/uolstore/home/users/sc21rr/Desktop/Bin_Packing/algorithms/Bin-Packing-Algorithms/Testing-Data/Complexity Test/" + fileIndex;
                     File binText = new File(file);
                     

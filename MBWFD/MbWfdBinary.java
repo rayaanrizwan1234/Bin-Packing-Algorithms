@@ -70,65 +70,29 @@ public class MbWfdBinary {
     }
 
     public static void main(String[] args) {
-        // try {
-        // // Reading data from a file
-        // File binText = new File("Testing-Data/binpack4.txt");
-        // try (Scanner textReader = new Scanner(binText)) {
-        // int problems = Integer.parseInt(textReader.nextLine());
-        // for (int i = 0; i < problems; i++) {
-        // System.out.print("Problem:" + textReader.nextLine() + "\n");
-        // String data = textReader.nextLine().trim();
-        // int capacity = Integer.parseInt(data.substring(0, 3));
-        // int n = Integer.parseInt(data.substring(4, 8));
-        // Integer[] item = new Integer[n];
-        // for (int j = 0; j < n; j++) {
-        // data = textReader.nextLine();
-        // item[j] = Integer.parseInt(data);
-        // }
-        // // Testing objects
-        // MbWfdBinary res = new MbWfdBinary();
-        // res.mbWfdHelper(item, capacity);
-        // System.out.println("Number of bins "+res.numOfBins);
-        // }
-        // } catch (NumberFormatException e) {
-        // e.printStackTrace();
-        // }
-        // }
-        // catch (FileNotFoundException e) {
-        // System.out.print("An error occured.\n");
-        // e.printStackTrace();
-        // }
-        // Integer[] items = new Integer[] {6, 6, 5, 5, 4, 3, 3, 2, 1, 1};
-        // int capacity = 10;
-        // MbWfdBinary res = new MbWfdBinary();
-        // res.mbWfdHelper(items, capacity);
         try {
-            // Reading data from a file
+            File folder = new File("/uolstore/home/users/sc21rr/Desktop/Bin_Packing/algorithms/Bin-Packing-Algorithms/Testing-Data/hard28");
+            File[] listOfFiles = folder.listFiles();
+            Arrays.sort(listOfFiles);
             long startTime = System.nanoTime();
-            for (int fileIndex = 2000; fileIndex <= 4000; fileIndex += 100) {
-                String file = "/uolstore/home/users/sc21rr/Desktop/Bin_Packing/algorithms/Bin-Packing-Algorithms/Testing-Data/Complexity Test/"
-                        + fileIndex;
-                File binText = new File(file);
-
-                try (Scanner textReader = new Scanner(binText)) {
-                    System.out.println("Problem:" + fileIndex);
+            for (File file : listOfFiles) {
+                System.out.println(file.getName());   
+                try (Scanner textReader = new Scanner(file)) {
                     int n = Integer.parseInt(textReader.nextLine());
-                    int capacity = Integer.parseInt(textReader.nextLine());
+                    int cap = Integer.parseInt(textReader.nextLine());
                     Integer[] item = new Integer[n];
                     for (int j = 0; j < n; j++) {
                         String data = textReader.nextLine();
                         item[j] = Integer.parseInt(data);
                     }
-                    // Testing objects
                     MbWfdBinary res = new MbWfdBinary();
-                    res.mbWfdHelper(item, capacity);
-                    System.out.println("Number of bins " + res.numOfBins + "\n");
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
+                    res.mbWfdHelper(item, cap);
+                    System.out.println("Number of bins "+res.numOfBins+ "\n");
                 }
             }
+
             long endTime = System.nanoTime();
-            System.out.println("Time taken: " + (endTime - startTime) / 1000000 + "ms\n");
+            System.out.println("Time taken: " + (endTime-startTime)/1000000 + " millisecond.");
         } catch (FileNotFoundException e) {
             System.out.print("An error occured.\n");
             e.printStackTrace();

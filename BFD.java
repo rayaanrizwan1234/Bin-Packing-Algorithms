@@ -35,23 +35,27 @@ class BFD {
 
     public static void main( String[] args ) {
         try {
-            File binText = new File("Testing-Data/binpack1.txt");
-            Scanner textReader = new Scanner(binText);
-            int problems = Integer.parseInt(textReader.nextLine());
-            for (int i = 0; i < problems; i++){
-                System.out.print("Problem:" + textReader.nextLine() + "\n");
-                String data = textReader.nextLine().trim();
-                int cap = Integer.parseInt(data.substring(0, 3));
-                int n = Integer.parseInt(data.substring(4,7));
-                Integer []item = new Integer[n];
-                for (int j = 0; j < n; j++){
-                    data = textReader.nextLine();
-                    item[j] = Integer.parseInt(data);
+            File folder = new File("/uolstore/home/users/sc21rr/Desktop/Bin_Packing/algorithms/Bin-Packing-Algorithms/Testing-Data/hard28");
+            File[] listOfFiles = folder.listFiles();
+            Arrays.sort(listOfFiles);
+            long startTime = System.nanoTime();
+            for (File file : listOfFiles) {
+                System.out.println(file.getName());   
+                try (Scanner textReader = new Scanner(file)) {
+                    int n = Integer.parseInt(textReader.nextLine());
+                    int cap = Integer.parseInt(textReader.nextLine());
+                    Integer[] item = new Integer[n];
+                    for (int j = 0; j < n; j++) {
+                        String data = textReader.nextLine();
+                        item[j] = Integer.parseInt(data);
+                    }
+                    System.out.println("n.o bins " + bestFitDecreasing(item, n, cap) + "\n");
                 }
-                System.out.print("Number of bins required in Best Fit Decreasing: " + bestFitDecreasing(item, n, cap) + "\n");
             }
-        }
-        catch (FileNotFoundException e) {
+
+            long endTime = System.nanoTime();
+            System.out.println("Time taken: " + (endTime-startTime)/1000000 + " millisecond.");
+        } catch (FileNotFoundException e) {
             System.out.print("An error occured.\n");
             e.printStackTrace();
         }
