@@ -5,20 +5,20 @@ import java.io.FileNotFoundException; // Import this class to handle errors
 import java.io.File;
 
 class FFD {
-    static int firstFit(Integer item[], int n, int cap) {
+    static int firstFit(Integer items[], int n, int cap) {
         int numberOfBins = 0;
         int[] resCap = new int[n];
         resCap[0] = cap;
-        for (int i = 0; i < n; i++) {
+        for (int item : items) {
             int j;
             for (j = 0; j < numberOfBins; j++) {
-                if (resCap[j] >= item[i]) {
-                    resCap[j] -= item[i];
+                if (resCap[j] >= item) {
+                    resCap[j] -= item;
                     break;
                 }
             }
             if (j == numberOfBins) {
-                resCap[numberOfBins] = cap - item[i];
+                resCap[numberOfBins] = cap - item;
                 numberOfBins++;
             }
         }
@@ -41,12 +41,12 @@ class FFD {
                 try (Scanner textReader = new Scanner(file)) {
                     int n = Integer.parseInt(textReader.nextLine());
                     int cap = Integer.parseInt(textReader.nextLine());
-                    Integer[] item = new Integer[n];
+                    Integer[] items = new Integer[n];
                     for (int j = 0; j < n; j++) {
                         String data = textReader.nextLine();
-                        item[j] = Integer.parseInt(data);
+                        items[j] = Integer.parseInt(data);
                     }
-                    System.out.println("n.o bins " + firstFitDecreasing(item, n, cap) + "\n");
+                    System.out.println("n.o bins " + firstFitDecreasing(items, n, cap) + "\n");
                 }
             }
 
