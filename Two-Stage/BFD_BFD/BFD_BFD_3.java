@@ -117,93 +117,91 @@ public class BFD_BFD_3 {
 
     // this gives the same result for any ratio you put in because nothing is being changed
     public static void main(String[] args) {
-        // try {
-        //     int best = 1000000;
-        //     double binRat = -1;
-        //     double capRat = -1;
-        //     double itemRat = -1;
-        //     // for (Double itemRatio = 0.0; itemRatio <= 1; itemRatio += 0.01) {
-        //         for (Double capRatio = 0.0; capRatio <= 1; capRatio += 0.01) {
-        //             for (Double binRatio = 0.0; binRatio <= 1; binRatio += 0.01) {
-        //                 int sum = 0;
-        //                 // Reading data from a file
-        //                 File binText = new File("/uolstore/home/users/sc21rr/Desktop/Bin_Packing/algorithms/Bin-Packing-Algorithms/Testing-Data/binpack4.txt");
-        //                 try (Scanner textReader = new Scanner(binText)) {
-        //                     int problems = Integer.parseInt(textReader.nextLine());
-        //                     for (int i = 0; i < problems; i++) {
-        //                         textReader.nextLine();
-        //                         // System.out.print("Problem:" + textReader.nextLine() + "\n");
-        //                         String data = textReader.nextLine().trim();
-        //                         int capacity = Integer.parseInt(data.substring(0, 3));
-        //                         int n = Integer.parseInt(data.substring(4, 8));
-        //                         Integer[] item = new Integer[n];
-        //                         for (int j = 0; j < n; j++) {
-        //                             data = textReader.nextLine();
-        //                             item[j] = Integer.parseInt(data);
-        //                         }
-        //                         // Testing objects
-        //                         BFD_BFD_3 res = new BFD_BFD_3();
-        //                         res.bfdToBfd(item, capacity, capRatio, binRatio, 0.0);
-        //                         // System.out.println("Bin trigger " +
-        //                         //         res.numOfBins + "\n");
-        //                         sum += res.numOfBins;
-        //                     }
-        //                     System.out.println("capRatio = "+capRatio+ " binratio = " + binRatio + " item ratio " + 0.0 + " sum is "+sum);
-        //                     if (sum <= best) {
-        //                         best = sum;
-        //                         binRat = binRatio;
-        //                         capRat = capRatio;
-        //                         itemRat = 0.0;
-        //                     }
-        //                 } 
-        //                 catch (NumberFormatException e) {
-        //                     e.printStackTrace();
-        //                 }
-        //             }
-        //         }
-        //     // }
-        //     System.out.println(capRat + " " + binRat + " " + itemRat);
-        // } catch (FileNotFoundException e) {
-        //     System.out.print("An error occured.\n");
-        //     e.printStackTrace();
-        // }
         try {
-            // Reading data from a file
-            File binText = new File("/uolstore/home/users/sc21rr/Desktop/Bin_Packing/algorithms/Bin-Packing-Algorithms/Testing-Data/binpack4.txt");
-            try (Scanner textReader = new Scanner(binText)) {
-                int problems = Integer.parseInt(textReader.nextLine());
-                long startTime = System.nanoTime();
-                for (int i = 0; i < problems; i++) {
-                    System.out.print("Problem:" + textReader.nextLine() + "\n");
-                    String data = textReader.nextLine().trim();
-                    int capacity = Integer.parseInt(data.substring(0, 3));
-                    int n = Integer.parseInt(data.substring(4, 8));
-                    Integer[] item = new Integer[n];
-                    for (int j = 0; j < n; j++) {
-                        data = textReader.nextLine();
-                        item[j] = Integer.parseInt(data);
-                    }
-                    // Testing objects
-                    BFD_BFD_3 res = new BFD_BFD_3();
-                    res.bfdToBfd(item, capacity, 0.59, 0.61, 0.62);
-                    System.out.println("Number of bins used " + res.numOfBins);
-                }
-                long endTime = System.nanoTime();
-                // Calculate the elapsed time in nanoseconds
-                long elapsedTime = endTime - startTime;
-
-                // Convert elapsed time to milliseconds (optional)
-                double elapsedTimeInMillis = elapsedTime / 1_000_000.0;
-
-                // Print the elapsed time
-                System.out.println("Elapsed time in milliseconds: " + elapsedTimeInMillis);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
+            int best = 1000000;
+            double binRat = -1;
+            double capRat = -1;
+            double itemRat = -1;
+            // for (Double itemRatio = 0.0; itemRatio <= 1; itemRatio += 0.01) {
+                // for (Double capRatio = 0.0; capRatio <= 1; capRatio += 0.01) {
+                //     for (Double binRatio = 0.0; binRatio <= 1; binRatio += 0.01) {
+                        int sum = 0;
+                        // Reading data from a file
+                        File binText = new File("../../Testing-Data/binpack4.txt");
+                        try (Scanner textReader = new Scanner(binText)) {
+                            int problems = Integer.parseInt(textReader.nextLine());
+                            for (int i = 0; i < problems; i++) {
+                                textReader.nextLine();
+                                // System.out.print("Problem:" + textReader.nextLine() + "\n");
+                                String data = textReader.nextLine().trim();
+                                int capacity = Integer.parseInt(data.substring(0, 3));
+                                int n = Integer.parseInt(data.substring(4, 8));
+                                Integer[] item = new Integer[n];
+                                for (int j = 0; j < n; j++) {
+                                    data = textReader.nextLine();
+                                    item[j] = Integer.parseInt(data);
+                                }
+                                // Testing objects
+                                BFD_BFD_3 res = new BFD_BFD_3();
+                                res.bfdToBfd(item, capacity, 0.5, 0.85, 0.92);
+                                System.out.println("Bin trigger " +
+                                        res.numOfBins + "\n");
+                                sum += res.numOfBins;
+                            }
+                            // System.out.println("capRatio = "+capRatio+ " binratio = " + binRatio + " item ratio " + 0.0 + " sum is "+sum);
+                            // if (sum <= best) {
+                            //     best = sum;
+                            //     binRat = binRatio;
+                            //     capRat = capRatio;
+                            //     itemRat = 0.0;
+                            // }
+                        } 
+                        catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
+            // }
+            System.out.println(capRat + " " + binRat + " " + itemRat);
         } catch (FileNotFoundException e) {
             System.out.print("An error occured.\n");
             e.printStackTrace();
         }
+        // try {
+        //     // Reading data from a file
+        //     File binText = new File("/uolstore/home/users/sc21rr/Desktop/Bin_Packing/algorithms/Bin-Packing-Algorithms/Testing-Data/binpack4.txt");
+        //     try (Scanner textReader = new Scanner(binText)) {
+        //         int problems = Integer.parseInt(textReader.nextLine());
+        //         long startTime = System.nanoTime();
+        //         for (int i = 0; i < problems; i++) {
+        //             System.out.print("Problem:" + textReader.nextLine() + "\n");
+        //             String data = textReader.nextLine().trim();
+        //             int capacity = Integer.parseInt(data.substring(0, 3));
+        //             int n = Integer.parseInt(data.substring(4, 8));
+        //             Integer[] item = new Integer[n];
+        //             for (int j = 0; j < n; j++) {
+        //                 data = textReader.nextLine();
+        //                 item[j] = Integer.parseInt(data);
+        //             }
+        //             // Testing objects
+        //             BFD_BFD_3 res = new BFD_BFD_3();
+        //             res.bfdToBfd(item, capacity, 0.59, 0.61, 0.62);
+        //             System.out.println("Number of bins used " + res.numOfBins);
+        //         }
+        //         long endTime = System.nanoTime();
+        //         // Calculate the elapsed time in nanoseconds
+        //         long elapsedTime = endTime - startTime;
+
+        //         // Convert elapsed time to milliseconds (optional)
+        //         double elapsedTimeInMillis = elapsedTime / 1_000_000.0;
+
+        //         // Print the elapsed time
+        //         System.out.println("Elapsed time in milliseconds: " + elapsedTimeInMillis);
+        //     } catch (NumberFormatException e) {
+        //         e.printStackTrace();
+        //     }
+        // } catch (FileNotFoundException e) {
+        //     System.out.print("An error occured.\n");
+        //     e.printStackTrace();
+        // }
 
         //         Integer[] item = new Integer[] {6, 6, 5, 5, 4, 3, 3, 2, 1, 1};
         // int capacity = 10;

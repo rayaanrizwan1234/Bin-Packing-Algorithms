@@ -32,29 +32,50 @@ class FFD {
 
     public static void main(String[] args) {
         try {
-            File folder = new File("/uolstore/home/users/sc21rr/Desktop/Bin_Packing/algorithms/Bin-Packing-Algorithms/Testing-Data/hard28");
+            // File binText = new File("Testing-Data/binpack3.txt");
+            // try (Scanner textReader = new Scanner(binText)) {
+                
+            //     int problems = Integer.parseInt(textReader.nextLine());
+            //     Integer[][] itemList = new Integer[problems][500];
+            //     for (int i = 0; i < problems; i++) {
+            //         textReader.nextLine();
+            //         String data = textReader.nextLine().trim();
+            //         int cap = Integer.parseInt(data.substring(0, 3));
+            //         int n = Integer.parseInt(data.substring(4, 7));
+            //         Integer[] item = new Integer[n];
+            //         for (int j = 0; j < n; j++) {
+            //             data = textReader.nextLine();
+            //             itemList[i][j] = Integer.parseInt(data);
+            //         }                    
+            //     }
+            //     long startTime = System.nanoTime();
+            //     for (int i = 0; i < problems; i++){
+            //         System.out.print("Number of bins required in First Fit Decreasing: " + firstFitDecreasing(itemList[i], 500, 150) + "\n");
+            //     }
+            //     long endTime = System.nanoTime();
+            //     System.out.print("Time taken: " + (endTime - startTime) / 1000000  + "ms\n");
+            // }
+            File folder = new File("Testing-Data/Complexity Test");
             File[] listOfFiles = folder.listFiles();
             Arrays.sort(listOfFiles);
-            long startTime = System.nanoTime();
             for (File file : listOfFiles) {
                 System.out.println(file.getName());   
                 try (Scanner textReader = new Scanner(file)) {
                     int n = Integer.parseInt(textReader.nextLine());
                     int cap = Integer.parseInt(textReader.nextLine());
-                    Integer[] items = new Integer[n];
+                    Integer[] item = new Integer[n];
                     for (int j = 0; j < n; j++) {
                         String data = textReader.nextLine();
-                        items[j] = Integer.parseInt(data);
+                        item[j] = Integer.parseInt(data);
                     }
-                    System.out.println("n.o bins " + firstFitDecreasing(items, n, cap) + "\n");
+                    long startTime = System.nanoTime();
+                    firstFitDecreasing(item, n, cap);
+                    long endTime = System.nanoTime();
+                    System.out.println("Time taken: " + (endTime-startTime)/1000 + " microseconds.");
                 }
             }
-
-            long endTime = System.nanoTime();
-            System.out.println("Time taken: " + (endTime-startTime)/1000000 + " millisecond.");
-        } catch (FileNotFoundException e) {
-            System.out.print("An error occured.\n");
-            e.printStackTrace();
-        }
-}
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+    }
 }
