@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
 import java.io.File;
+import java.util.stream.Stream;
+
 
 // FFD -> BFD cap & bin trigger
 public class FFD_BFD_3 {
@@ -53,24 +55,50 @@ public class FFD_BFD_3 {
     }
 
     // This method is used to set triggers for number of bins or the number of items
-    boolean ffdToBfd(Integer items[], int capacity, double capRatio, double binRatio) {
+    boolean ffdToBfd(Integer items[], int capacity, double capRatio, double binRatio, double itemRatio) {
         Arrays.sort(items, Collections.reverseOrder());
 
         int newCap = (int) Math.ceil(capacity * capRatio);
+        this.capacity = newCap;
 
-        int sumOfItems = 0;
-        for (Integer i : items) {
-            sumOfItems += i;
+        if (binRatio != 0) {
+            int sumOfItems = 0;
+            for (Integer i : items) {
+                sumOfItems += i;
+            }
+            double maximumBins = (double) sumOfItems / capacity;
+            maximumBins = Math.ceil(maximumBins) * binRatio;
+            numOfBins = (int) Math.ceil(maximumBins);
+            resCap.addAll(Collections.nCopies(numOfBins, newCap));
         }
 
-        double maximumBins = (double) sumOfItems / capacity;
-        maximumBins = Math.ceil(maximumBins) * binRatio;
-        numOfBins = (int) Math.ceil(maximumBins);
-        resCap.addAll(Collections.nCopies(numOfBins, newCap));
+        Integer[] items1 = null;
+        // splits items based on given trigger value
+        if (itemRatio != 0) {
+            int numItems1 = (int) Math.ceil(items.length * itemRatio);
 
-        this.capacity = capacity;
+            // items for first stage 
+            items1 = Arrays.copyOfRange(items, 0, numItems1);
+            // items for second stage
+            items = Arrays.copyOfRange(items, numItems1, items.length);
+        }
 
-        items = firstFit(items);
+        if (binRatio != 0 && itemRatio != 0) {
+            // gets the unallocated items from the first stage and passes it onto the second
+            // stage
+            final var unAllocated = firstFit(items1);
+            Integer[] resultArray = Stream.concat(Arrays.stream(unAllocated), Arrays.stream(items))
+                    .toArray(Integer[]::new);
+            items = resultArray;
+        // NOTE : This needs changes to be wholly implemented.
+        } else if (binRatio == 0 && itemRatio != 0) {
+            final var unAllocated = firstFit(items1);
+            Integer[] resultArray = Stream.concat(Arrays.stream(unAllocated), Arrays.stream(items))
+                    .toArray(Integer[]::new);
+            items = resultArray;
+        } else {
+            items = firstFit(items);
+        }
 
         for (int i = 0; i < resCap.size(); i++) {
             int cap = resCap.get(i) + capacity - newCap;
@@ -85,29 +113,32 @@ public class FFD_BFD_3 {
     public static void main(String[] args) {
         try {
             // Reading data from a file
-            File binText = new File("Testing-Data/binpack2.txt");
+            File binText = new File("../../Testing-Data/binpack4.txt");
             try (Scanner textReader = new Scanner(binText)) {
                 int problems = Integer.parseInt(textReader.nextLine());
                 // Record the start time
-                long startTime = System.nanoTime();
+                Integer[][] itemList = new Integer[problems][1000];
                 for (int i = 0; i < problems; i++) {
                     System.out.print("Problem:" + textReader.nextLine() + "\n");
                     String data = textReader.nextLine().trim();
                     int capacity = Integer.parseInt(data.substring(0, 3));
-                    int n = Integer.parseInt(data.substring(4, 7));
+                    int n = Integer.parseInt(data.substring(4, 8));
                     Integer[] item = new Integer[n];
                     for (int j = 0; j < n; j++) {
                         data = textReader.nextLine();
-                        item[j] = Integer.parseInt(data);
+                        itemList[i][j] = Integer.parseInt(data);
                     }
                     // Testing objects
+                    
+                }
+               long startTime = System.nanoTime();
+                // Calculate the elapsed time
+                for (int i = 0; i < problems; i++){
                     FFD_BFD_3 hybrid = new FFD_BFD_3();
-                    hybrid.ffdToBfd(item, capacity, 0.59, 0.6);
+                    hybrid.ffdToBfd(itemList[i], 150, 0.5, 0.85, 0.92);
                     System.out.println("Item trigger " + hybrid.numOfBins + "\n");
                 }
-                long endTime = System.nanoTime();
-                // Calculate the elapsed time
-                long elapsedTime = endTime - startTime;
+                long elapsedTime = System.nanoTime() - startTime;
 
                 System.out.println("Execution time in ms: " + elapsedTime / 1000000);
             } catch (NumberFormatException e) {
