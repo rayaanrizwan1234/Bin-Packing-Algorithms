@@ -9,23 +9,22 @@ public class WFD {
         Arrays.sort(items, Collections.reverseOrder());
         int[] resCap = new int[n];
         int numOfBins = 0;
-        for (int i = 0; i < n; i++) {
-            int j;
-            // set default values, neither would change if no bin is found
+        for (int item : items) {
             int max = -1;
             int maxBin = -1;
-            for (j = 0; j < numOfBins; j++) {
-                if (resCap[j] >= items[i] && (resCap[j] - items[i] > max)) {
+            for (int j = 0; j < numOfBins; j++) {
+                int remaining = resCap[j] - item;
+                if ((resCap[j] >= item) && (remaining > max)) {
                     maxBin = j;
-                    max = resCap[j] - items[i];
+                    max = remaining;
                 }
             }
             // No bin could accomodate it
             if (max == -1) {
-                resCap[numOfBins] = cap - items[i];
+                resCap[numOfBins] = cap - item;
                 numOfBins++;
             } else {
-                resCap[maxBin] -= items[i];
+                resCap[maxBin] = max;
             }
         }
 

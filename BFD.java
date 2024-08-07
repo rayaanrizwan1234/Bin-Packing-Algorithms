@@ -5,32 +5,32 @@ import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.io.File;
 
 class BFD {
-    static int bestFit(Integer item[], int n, int cap) {
+    static int bestFit(Integer items[], int n, int cap) {
         int numberOfBins = 0;
         int []resCap = new int[n];
-        for (int i = 0; i < n; i++) {
-            int j;
+        for (int item : items) {
             int min = cap + 1;
-            int bi = 0;
-            for (j = 0; j < numberOfBins; j++) {
-                if ((resCap[j] >= item[i]) && resCap[j] - item[i] < min){
-                    bi = j;
-                    min = resCap[j] - item[i];
+            int minBin = 0;
+            for (int j = 0; j < numberOfBins; j++) {
+                int remaining = resCap[j] - item;
+                if ((resCap[j] >= item) && (remaining < min)){
+                    minBin = j;
+                    min = remaining;
                 }
             }
             if (min == cap + 1) {
-                resCap[numberOfBins] = cap - item[i];
+                resCap[numberOfBins] = cap - item;
                 numberOfBins++;
             }
             else
-                resCap[bi] -= item[i];
+                resCap[minBin] = min;
         }
         return numberOfBins;
     }
 
-    static int bestFitDecreasing(Integer item[], int n, int cap) {
-        Arrays.sort(item, Collections.reverseOrder());
-        return bestFit(item, n, cap);
+    static int bestFitDecreasing(Integer items[], int n, int cap) {
+        Arrays.sort(items, Collections.reverseOrder());
+        return bestFit(items, n, cap);
     }
 
     public static void main( String[] args ) {
@@ -76,9 +76,6 @@ class BFD {
                     System.out.println("Time taken: " + (endTime-startTime)/1000 + " microseconds.");
                 }
             }
-
-            long endTime = System.nanoTime();
-            System.out.println("Time taken: " + (endTime-startTime)/1000000 + " millisecond.");
         } catch (FileNotFoundException e) {
             System.out.print("An error occured.\n");
             e.printStackTrace();
