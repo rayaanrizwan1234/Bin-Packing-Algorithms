@@ -25,8 +25,8 @@ public class BFD_BFD_3 {
             }
             if ((min == capacity + 1) && !binRatio && (capacity >= item)) {
                 resCap.add(capacity - item);
-            }
-            else if (min == capacity + 1) {
+                numOfBins++;
+            } else if (min == capacity + 1) {
                 notAllocatedItems.add(item);
             } else {
                 resCap.set(minBin, min);
