@@ -118,61 +118,64 @@ public class BFD_WFD_3 {
     // this gives the same result for any ratio you put in because nothing is being
     // changed
     public static void main(String[] args) {
+        Double[] values = {0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0};
         try {
-            // Reading data from a file
-            File binText = new File(
-                    "/uolstore/home/users/sc21rr/Desktop/Bin_Packing/algorithms/Bin-Packing-Algorithms/Testing-Data/binpack4.txt");
-            try (Scanner textReader = new Scanner(binText)) {
-                int problems = Integer.parseInt(textReader.nextLine());
-                // Record the start time
-                Integer[][] itemList = new Integer[problems][1000];
-                for (int i = 0; i < problems; i++) {
-                    System.out.print("Problem:" + textReader.nextLine() + "\n");
-                    String data = textReader.nextLine().trim();
-                    int n = Integer.parseInt(data.substring(4, 8));
-                    for (int j = 0; j < n; j++) {
-                        data = textReader.nextLine();
-                        itemList[i][j] = Integer.parseInt(data);
+            File folder = new File("/uolstore/home/users/sc21rr/Desktop/Bin_Packing/algorithms/Bin-Packing-Algorithms/Testing-Data/Waescher");
+            File[] listOfFiles = folder.listFiles();
+
+            long startTime = System.nanoTime();
+            int best = 1000000000;
+            Double cr = -5.5;
+            Double br = -4.0;
+            Double ira = -3.0;
+            for (Double c : values) {
+                for (Double b : values) {
+                    for (Double ir : values) {
+                        int sum  = 0;
+                        for (File file : listOfFiles) {
+                            try (Scanner textReader = new Scanner(file)) {
+                                int n = Integer.parseInt(textReader.nextLine());
+                                int cap = Integer.parseInt(textReader.nextLine());
+                                Integer[] item = new Integer[n];
+                                for (int j = 0; j < n; j++) {
+                                    String data = textReader.nextLine();
+                                    item[j] = Integer.parseInt(data);
+                                }
+                                FFD_WFD_3 res = new FFD_WFD_3();
+                                res.ffdToWfd(item, cap, c, b, ir);   
+                                sum += res.numOfBins;
+                            }
+                        }
+                        System.out.println("c = "+c +" b = "+b+" i = "+ir+" sum = "+sum);
+                        if (sum < best) {
+                            best = sum;
+                            cr = c;
+                            br = b;
+                            ira = ir;
+                        }
                     }
-                    // Testing objects
-
-                }
-                long startTime = System.nanoTime();
-                // Calculate the elapsed time
-                int best = 10000000;
-                double ira = -1;
-                double cr = -1;
-                double br = -1;
-                // for (double c = 0.0; c <= 1; c += 0.01) {
-                // for (double b = 0.0; b <= 1; b += 0.01) {
-                // for (double ir = 0.0; ir <= 1; ir += 0.1) {
-                int sum = 0;
-                for (int i = 0; i < problems; i++) {
-                    BFD_WFD_3 hybrid = new BFD_WFD_3();
-                    hybrid.bfdToWfd(itemList[i], 150, 0.19, 0.46, 0.9);
-                    System.out.println("Number of bins = " + hybrid.numOfBins + "\n");
-                    sum += hybrid.numOfBins;
-                }
-                // System.out.println("cr " + c+ " br " + b + " ir " + ir);
-                // if (sum < best) {
-                // best = sum;
-                // ira = ir;
-                // br = b;
-                // cr = c;
-                // }
-                // }
-                // }
-                // }
-                System.out.println(cr + " " + br + " " + ira);
-
-                long elapsedTime = System.nanoTime() - startTime;
-
-                System.out.println("Execution time in ms: " + elapsedTime / 1000000);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
+                }   
             }
+            System.out.println("cr = "+cr +" br = "+br+" ir = "+ira +" best "+best);
+            long endTime = System.nanoTime();
+            System.out.println("Time taken: " + (endTime - startTime) / 1000000 + "ms\n");
+
+            for (File file : listOfFiles) {
+                try (Scanner textReader = new Scanner(file)) {
+                    int n = Integer.parseInt(textReader.nextLine());
+                    int cap = Integer.parseInt(textReader.nextLine());
+                    Integer[] item = new Integer[n];
+                    for (int j = 0; j < n; j++) {
+                        String data = textReader.nextLine();
+                        item[j] = Integer.parseInt(data);
+                    }
+                    BFD_WFD_3 res = new BFD_WFD_3();
+                    res.bfdToWfd(item, cap, cr, br, ira);   
+                    System.out.println("num of bins " +res.numOfBins);
+                }
+            }
+
         } catch (FileNotFoundException e) {
-            System.out.print("An error occured.\n");
             e.printStackTrace();
         }
     }
