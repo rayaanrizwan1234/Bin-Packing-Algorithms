@@ -29,28 +29,7 @@ class BFD_MBWFD_2 {
         }
         return true;
     }
-
-    Integer[] worstFitDecreasing(Integer items[]) {
-        ArrayList<Integer> notAllocatedItems = new ArrayList<>();
-        for (int item : items) {
-            int max = -1;
-            int maxBin = -1;
-            for (int j = 0; j < resCap.size(); j++) {
-                int remaining = resCap.get(j) - item;
-                if (resCap.get(j) >= item && (remaining > max)) {
-                    maxBin = j;
-                    max = remaining;
-                }
-            }
-            if (max == -1) {
-                notAllocatedItems.add(item);
-            } else {
-                resCap.set(maxBin, max);
-            }
-        }
-        return notAllocatedItems.toArray(new Integer[0]);
-    }
-
+    
     Boolean mbWfd(Integer[] items) {
         ArrayList<Integer> notAllocatedItems = new ArrayList<>();
         for (int item : items) {
@@ -76,26 +55,25 @@ class BFD_MBWFD_2 {
     // This method is used to set triggers for number of bins or the number of items
     boolean bfdToMbWfd(Integer items[], int capacity, double ItemRatio) {
         Arrays.sort(items, Collections.reverseOrder());
-        int numItems1 = (int) Math.ceil(items.length * ItemRatio);
 
+        int numItems1 = (int) Math.ceil(items.length * ItemRatio);
         final var items1 = Arrays.copyOfRange(items, 0, numItems1);
         var items2 = Arrays.copyOfRange(items, numItems1, items.length);
 
         bestFit(items1, capacity);
 
-        items2 = worstFitDecreasing(items2);
-
         int numOfBinsFirstStage = numOfBins;
 
+        ArrayList<Integer> firstStageResCap = new ArrayList<>(resCap);
+
         int sumOfItems = 0;
-        for (Integer i : items2) {
+        for (Integer i : items) {
             sumOfItems += i;
         }
 
         // run binary search over different m values
         int lowerBound = (int) Math.ceil((double) sumOfItems / capacity);
-        int upperBound = items2.length;
-        numOfBins = (int) lowerBound;
+        int upperBound = items.length;
 
         ArrayList<Integer> tempResCap = new ArrayList<>();
         int min = upperBound;
@@ -103,8 +81,12 @@ class BFD_MBWFD_2 {
             int middle = lowerBound + ((upperBound - lowerBound) / 2);
             this.numOfBins = middle;
             resCap.clear();
-            resCap.addAll(Collections.nCopies(numOfBins, capacity));
-            final var success = mbWfd(items2);
+            resCap.addAll(firstStageResCap);
+            Boolean success = false;
+            if (middle >= numOfBinsFirstStage) {
+                resCap.addAll(Collections.nCopies(numOfBins - numOfBinsFirstStage, capacity));
+                success = mbWfd(items2);
+            }
 
             if (!success) {
                 lowerBound = middle + 1;
@@ -115,7 +97,7 @@ class BFD_MBWFD_2 {
             }
         }
         resCap = tempResCap;
-        numOfBins = min + numOfBinsFirstStage;
+        numOfBins = min;
 
         return true;
     }
@@ -124,7 +106,7 @@ class BFD_MBWFD_2 {
         try {
             int best = 1000000;
             double rat = -1;
-            for (Double binRatio = 0.0; binRatio <= 1; binRatio += 0.01) {
+            for (Double itemRatio = 0.0; itemRatio <= 1; itemRatio += 0.01) {
                 int sum = 0;
                 // Reading data from a file
                 File binText = new File(
@@ -144,13 +126,13 @@ class BFD_MBWFD_2 {
                         }
                         // Testing objects
                         BFD_MBWFD_2 res = new BFD_MBWFD_2();
-                        res.bfdToMbWfd(item, capacity, binRatio);
+                        res.bfdToMbWfd(item, capacity, itemRatio);
                         sum += res.numOfBins;
                     }
-                    System.out.println("rat = " + binRatio + " sum is " + sum);
+                    System.out.println("rat = " + itemRatio + " sum is " + sum);
                     if (sum <= best) {
                         best = sum;
-                        rat = binRatio;
+                        rat = itemRatio;
                     }
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
@@ -183,5 +165,8 @@ class BFD_MBWFD_2 {
             System.out.print("An error occured.\n");
             e.printStackTrace();
         }
+        // Integer[] item = {6, 6, 5, 5, 4, 4, 3, 3, 1};
+        // BFD_MBWFD_2 res = new BFD_MBWFD_2();
+        // res.bfdToMbWfd(item, 10, 0.5);
     }
 }
