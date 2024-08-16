@@ -5,7 +5,7 @@ import java.util.Scanner;
 import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.io.File;
 
-class B2Fimproved{
+class B2F{
     static int bestTwoFit(Integer item[], int n, int cap) {
         // initialising residual capacities, bins and largest item.
         int numberOfBins = 0;
