@@ -74,12 +74,12 @@ public class MbWfdToFfd_3_2 {
 
         double lowerBound = (double) sumOfItems / capacity;
         lowerBound = Math.ceil(lowerBound) * binRatio;
-        numOfBins = (int) Math.ceil(lowerBound);        
+        numOfBins = (int) Math.ceil(lowerBound);
         resCap.addAll(Collections.nCopies(numOfBins, newCapacity));
 
         final var unAllocated = MbWfd(items1);
         Integer[] resultArray = Stream.concat(Arrays.stream(unAllocated), Arrays.stream(items2))
-        .toArray(Integer[]::new);
+                .toArray(Integer[]::new);
         Arrays.sort(resultArray, Collections.reverseOrder());
         items2 = resultArray;
 
@@ -96,54 +96,54 @@ public class MbWfdToFfd_3_2 {
     }
 
     public static void main(String[] args) {
-        //     try {
-        //     int min = 100000;
-        //     double bestCap = 0;
-        //     double bestBin = 0;
-        //     for (double cap = 0; cap <= 1; cap+=0.01) {
-        //         for (double bin = 0; bin <= 1; bin += 0.01) {
-        //             int sum  = 0;
-        //             File binText = new File("Testing-Data/binpack4.txt");
-        //             try (Scanner textReader = new Scanner(binText)) {
-        //                 int problems = Integer.parseInt(textReader.nextLine());
-        //                 // Record the start time
-        //                 long startTime = System.nanoTime();
-        //                 for (int i = 0; i < problems; i++) {
-        //                     textReader.nextLine();
-        //                     // System.out.print("Problem:" + textReader.nextLine() + "\n");
-        //                     String data = textReader.nextLine().trim();
-        //                     int capacity = Integer.parseInt(data.substring(0, 3));
-        //                     int n = Integer.parseInt(data.substring(4, 8));
-        //                     Integer[] item = new Integer[n];
-        //                     for (int j = 0; j < n; j++) {
-        //                         data = textReader.nextLine();
-        //                         item[j] = Integer.parseInt(data);
-        //                     }
-        //                     // Testing objects
-        //                     MbWfdToFfd_3_2 hybrid = new MbWfdToFfd_3_2();
-        //                     hybrid.hybridMbWfdToFfd(item, capacity, cap, bin);
-        //                     sum += hybrid.numOfBins;
-        //                 }
-        //                 long endTime = System.nanoTime();
-        //                 // Calculate the elapsed time
-        //                 long elapsedTime = endTime - startTime;
-        
-        //                 // System.out.println("Execution time in ms: " + elapsedTime / 1000000);
-        //             } catch (NumberFormatException e) {
-        //                 e.printStackTrace();
-        //             }
-        //             System.out.println(cap + " " + sum + " " + bin);
-        //             if (sum <= min) {
-        //                 min = sum;
-        //                 bestCap = cap;
-        //                 bestBin = bin;
-        //             }
-        //         }
-        //     }
-        //     System.out.println(bestCap + " " + bestBin);
+        // try {
+        // int min = 100000;
+        // double bestCap = 0;
+        // double bestBin = 0;
+        // for (double cap = 0; cap <= 1; cap+=0.01) {
+        // for (double bin = 0; bin <= 1; bin += 0.01) {
+        // int sum = 0;
+        // File binText = new File("Testing-Data/binpack4.txt");
+        // try (Scanner textReader = new Scanner(binText)) {
+        // int problems = Integer.parseInt(textReader.nextLine());
+        // // Record the start time
+        // long startTime = System.nanoTime();
+        // for (int i = 0; i < problems; i++) {
+        // textReader.nextLine();
+        // // System.out.print("Problem:" + textReader.nextLine() + "\n");
+        // String data = textReader.nextLine().trim();
+        // int capacity = Integer.parseInt(data.substring(0, 3));
+        // int n = Integer.parseInt(data.substring(4, 8));
+        // Integer[] item = new Integer[n];
+        // for (int j = 0; j < n; j++) {
+        // data = textReader.nextLine();
+        // item[j] = Integer.parseInt(data);
+        // }
+        // // Testing objects
+        // MbWfdToFfd_3_2 hybrid = new MbWfdToFfd_3_2();
+        // hybrid.hybridMbWfdToFfd(item, capacity, cap, bin);
+        // sum += hybrid.numOfBins;
+        // }
+        // long endTime = System.nanoTime();
+        // // Calculate the elapsed time
+        // long elapsedTime = endTime - startTime;
+
+        // // System.out.println("Execution time in ms: " + elapsedTime / 1000000);
+        // } catch (NumberFormatException e) {
+        // e.printStackTrace();
+        // }
+        // System.out.println(cap + " " + sum + " " + bin);
+        // if (sum <= min) {
+        // min = sum;
+        // bestCap = cap;
+        // bestBin = bin;
+        // }
+        // }
+        // }
+        // System.out.println(bestCap + " " + bestBin);
         // } catch (FileNotFoundException e) {
-        //     System.out.print("An error occured.\n");
-        //     e.printStackTrace();
+        // System.out.print("An error occured.\n");
+        // e.printStackTrace();
         // }
         try {
             // Reading data from a file

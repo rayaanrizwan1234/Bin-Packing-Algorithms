@@ -34,7 +34,6 @@ public class FFD_MBWFD_3 {
         return notAllocatedItems.toArray(new Integer[0]);
     }
 
-
     Boolean mbWfd(Integer[] items) {
         ArrayList<Integer> notAllocatedItems = new ArrayList<>();
         for (int item : items) {
@@ -176,16 +175,16 @@ public class FFD_MBWFD_3 {
                 for (double c : values) {
                     for (double b : values) {
                         for (double ir : values) {
-                            int sum  = 0;
+                            int sum = 0;
                             for (int i = 0; i < problems; i++) {
                                 FFD_MBWFD_3 hybrid = new FFD_MBWFD_3();
                                 hybrid.bfdToMbwfd(itemList[i], 150, c, b, ir);
                                 sum += hybrid.numOfBins;
                             }
-                            System.out.println("c = "+c +" b = "+b+" i = "+ir+" sum = "+sum);
-                            if ( sum < best) {
+                            System.out.println("c = " + c + " b = " + b + " i = " + ir + " sum = " + sum);
+                            if (sum < best) {
                                 best = sum;
-                                br= b;
+                                br = b;
                                 cr = c;
                                 ira = ir;
                             }
@@ -199,7 +198,7 @@ public class FFD_MBWFD_3 {
                 for (int i = 0; i < problems; i++) {
                     FFD_MBWFD_3 hybrid = new FFD_MBWFD_3();
                     hybrid.bfdToMbwfd(itemList[i], 150, cr, br, ira);
-                    System.out.println("num of bins "+hybrid.numOfBins);
+                    System.out.println("num of bins " + hybrid.numOfBins);
                 }
 
                 System.out.println("Execution time in ms: " + elapsedTime / 1000000);

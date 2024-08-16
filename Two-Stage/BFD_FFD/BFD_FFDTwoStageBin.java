@@ -66,7 +66,7 @@ class BFD_FFDTwoStageBin {
         double maximumBins = (double) sumOfItems / capacity;
         maximumBins = Math.ceil(maximumBins) * binRatio;
         numOfBins = (int) Math.ceil(maximumBins);
-        
+
         resCap.addAll(Collections.nCopies(numOfBins, capacity));
 
         items = bestFit(items);

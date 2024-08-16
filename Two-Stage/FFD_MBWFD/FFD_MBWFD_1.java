@@ -57,7 +57,7 @@ public class FFD_MBWFD_1 {
         Arrays.sort(items, Collections.reverseOrder());
 
         int sumOfItems = 0;
-        for (Integer i : items) { 
+        for (Integer i : items) {
             sumOfItems += i;
         }
 

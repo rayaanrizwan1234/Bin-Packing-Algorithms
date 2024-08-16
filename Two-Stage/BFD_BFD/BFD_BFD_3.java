@@ -80,7 +80,7 @@ public class BFD_BFD_3 {
         if (itemRatio != 0) {
             int numItems1 = (int) Math.ceil(items.length * itemRatio);
 
-            // items for first stage 
+            // items for first stage
             items1 = Arrays.copyOfRange(items, 0, numItems1);
             // items for second stage
             items = Arrays.copyOfRange(items, numItems1, items.length);
@@ -109,17 +109,19 @@ public class BFD_BFD_3 {
         }
 
         this.capacity = capacity;
-        
+
         bestFitSecondStage(items);
 
         return true;
     }
 
-    // this gives the same result for any ratio you put in because nothing is being changed
+    // this gives the same result for any ratio you put in because nothing is being
+    // changed
     public static void main(String[] args) {
-        Double[] values = {0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0};
+        Double[] values = { 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0 };
         try {
-            File folder = new File("/uolstore/home/users/sc21rr/Desktop/Bin_Packing/algorithms/Bin-Packing-Algorithms/Testing-Data/Waescher");
+            File folder = new File(
+                    "/uolstore/home/users/sc21rr/Desktop/Bin_Packing/algorithms/Bin-Packing-Algorithms/Testing-Data/Waescher");
             File[] listOfFiles = folder.listFiles();
 
             // long startTime = System.nanoTime();
@@ -128,36 +130,37 @@ public class BFD_BFD_3 {
             // Double br = -4.0;
             // Double ira = -3.0;
             // for (Double c : values) {
-            //     for (Double b : values) {
-            //         for (Double ir : values) {
-            //             int sum  = 0;
-            //             for (File file : listOfFiles) {
-            //                 try (Scanner textReader = new Scanner(file)) {
-            //                     int n = Integer.parseInt(textReader.nextLine());
-            //                     int cap = Integer.parseInt(textReader.nextLine());
-            //                     Integer[] item = new Integer[n];
-            //                     for (int j = 0; j < n; j++) {
-            //                         String data = textReader.nextLine();
-            //                         item[j] = Integer.parseInt(data);
-            //                     }
-            //                     BFD_BFD_3 res = new BFD_BFD_3();
-            //                     res.bfdToBfd(item, cap, c, b, ir);   
-            //                     sum += res.numOfBins;
-            //                 }
-            //             }
-            //             System.out.println("c = "+c +" b = "+b+" i = "+ir+" sum = "+sum);
-            //             if (sum < best) {
-            //                 best = sum;
-            //                 cr = c;
-            //                 br = b;
-            //                 ira = ir;
-            //             }
-            //         }
-            //     }   
+            // for (Double b : values) {
+            // for (Double ir : values) {
+            // int sum = 0;
+            // for (File file : listOfFiles) {
+            // try (Scanner textReader = new Scanner(file)) {
+            // int n = Integer.parseInt(textReader.nextLine());
+            // int cap = Integer.parseInt(textReader.nextLine());
+            // Integer[] item = new Integer[n];
+            // for (int j = 0; j < n; j++) {
+            // String data = textReader.nextLine();
+            // item[j] = Integer.parseInt(data);
+            // }
+            // BFD_BFD_3 res = new BFD_BFD_3();
+            // res.bfdToBfd(item, cap, c, b, ir);
+            // sum += res.numOfBins;
+            // }
+            // }
+            // System.out.println("c = "+c +" b = "+b+" i = "+ir+" sum = "+sum);
+            // if (sum < best) {
+            // best = sum;
+            // cr = c;
+            // br = b;
+            // ira = ir;
+            // }
+            // }
+            // }
             // }
             // System.out.println("cr = "+cr +" br = "+br+" ir = "+ira+ " best = "+best);
             // long endTime = System.nanoTime();
-            // System.out.println("Time taken: " + (endTime - startTime) / 1000000 + "ms\n");
+            // System.out.println("Time taken: " + (endTime - startTime) / 1000000 +
+            // "ms\n");
 
             for (File file : listOfFiles) {
                 try (Scanner textReader = new Scanner(file)) {
@@ -169,8 +172,8 @@ public class BFD_BFD_3 {
                         item[j] = Integer.parseInt(data);
                     }
                     BFD_BFD_3 res = new BFD_BFD_3();
-                    res.bfdToBfd(item, cap, 0.5, 0.5, 0.5);   
-                    System.out.println("num of bins " +res.numOfBins);
+                    res.bfdToBfd(item, cap, 0.5, 0.5, 0.5);
+                    System.out.println("num of bins " + res.numOfBins);
                 }
             }
 

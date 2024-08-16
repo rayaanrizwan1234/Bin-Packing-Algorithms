@@ -143,78 +143,82 @@ class FFDTwoStage {
 
         return true;
     }
+
     public static void main(String[] args) {
         try {
             // Reading data from a file
-        //     File binText = new File("../Testing-Data/binpack3.txt");
-        //     try (Scanner textReader = new Scanner(binText)) {
-        //         long startTime = System.nanoTime();
-        //         int problems = Integer.parseInt(textReader.nextLine());
-        //         for (int i = 0; i < problems; i++) {
-        //             System.out.print("Problem:" + textReader.nextLine() + "\n");
-        //             String data = textReader.nextLine().trim();
-        //             int capacity = Integer.parseInt(data.substring(0, 3));
-        //             int n = Integer.parseInt(data.substring(4, 7));
-        //             Integer[] item = new Integer[n];
-        //             for (int j = 0; j < n; j++) {
-        //                 data = textReader.nextLine();
-        //                 item[j] = Integer.parseInt(data);
-        //             }
-        //             // Testing objects
-        //             FFDTwoStage ffdTwoStageBinTrigger = new FFDTwoStage();
-        //             ffdTwoStageBinTrigger.firstFitDecreasingBinOrItem(item, capacity, 0.75, true);
-        //             System.out.print("Bin trigger " +
-        //             ffdTwoStageBinTrigger.numOfBins + "\n");
+            // File binText = new File("../Testing-Data/binpack3.txt");
+            // try (Scanner textReader = new Scanner(binText)) {
+            // long startTime = System.nanoTime();
+            // int problems = Integer.parseInt(textReader.nextLine());
+            // for (int i = 0; i < problems; i++) {
+            // System.out.print("Problem:" + textReader.nextLine() + "\n");
+            // String data = textReader.nextLine().trim();
+            // int capacity = Integer.parseInt(data.substring(0, 3));
+            // int n = Integer.parseInt(data.substring(4, 7));
+            // Integer[] item = new Integer[n];
+            // for (int j = 0; j < n; j++) {
+            // data = textReader.nextLine();
+            // item[j] = Integer.parseInt(data);
+            // }
+            // // Testing objects
+            // FFDTwoStage ffdTwoStageBinTrigger = new FFDTwoStage();
+            // ffdTwoStageBinTrigger.firstFitDecreasingBinOrItem(item, capacity, 0.75,
+            // true);
+            // System.out.print("Bin trigger " +
+            // ffdTwoStageBinTrigger.numOfBins + "\n");
 
-        //             FFDTwoStage ffdTwoStageItemTrigger = new FFDTwoStage();
-        //             ffdTwoStageItemTrigger.firstFitDecreasingBinOrItem(item, capacity, 0.65, false);
-        //             System.out.print("Item trigger " +
-        //             ffdTwoStageItemTrigger.numOfBins + "\n");
+            // FFDTwoStage ffdTwoStageItemTrigger = new FFDTwoStage();
+            // ffdTwoStageItemTrigger.firstFitDecreasingBinOrItem(item, capacity, 0.65,
+            // false);
+            // System.out.print("Item trigger " +
+            // ffdTwoStageItemTrigger.numOfBins + "\n");
 
-        //             FFDTwoStage ffdTwoStageBinItemCapacityTrigger = new FFDTwoStage();
-        //             ffdTwoStageBinItemCapacityTrigger.firstFitDecreasingCapacity(item, capacity, 0.4, 0.5, 0.6);
-        //             System.out.print("Bin Item Capacity trigger " +
-        //             ffdTwoStageBinItemCapacityTrigger.numOfBins + "\n");
-        //         }
-        //         long endTime = System.nanoTime();
-        //         System.out.print("Time taken: " + (endTime - startTime) / 1000000  + "ms\n");
+            // FFDTwoStage ffdTwoStageBinItemCapacityTrigger = new FFDTwoStage();
+            // ffdTwoStageBinItemCapacityTrigger.firstFitDecreasingCapacity(item, capacity,
+            // 0.4, 0.5, 0.6);
+            // System.out.print("Bin Item Capacity trigger " +
+            // ffdTwoStageBinItemCapacityTrigger.numOfBins + "\n");
+            // }
+            // long endTime = System.nanoTime();
+            // System.out.print("Time taken: " + (endTime - startTime) / 1000000 + "ms\n");
 
-        //     } catch (NumberFormatException e) {
-        //         e.printStackTrace();
-        //     }
-        // } catch (FileNotFoundException e) {
-        //     System.out.print("An error occured.\n");
-        //     e.printStackTrace();
-        // }
-        File folder = new File("../Testing-Data/Triplets/120");
-        File[] listOfFiles = folder.listFiles();
-        long startTime = System.nanoTime();
-        for (File file : listOfFiles) {
-            try (Scanner textReader = new Scanner(file)) { 
-                int n = Integer.parseInt(textReader.nextLine());
-                int cap = Integer.parseInt(textReader.nextLine());
-                Integer[] item = new Integer[n];
-                int lowerBound = 0;
-                for (int j = 0; j < n; j++) {
-                    String data = textReader.nextLine();
-                    item[j] = Integer.parseInt(data);
-                    lowerBound += item[j];
+            // } catch (NumberFormatException e) {
+            // e.printStackTrace();
+            // }
+            // } catch (FileNotFoundException e) {
+            // System.out.print("An error occured.\n");
+            // e.printStackTrace();
+            // }
+            File folder = new File("../Testing-Data/Triplets/120");
+            File[] listOfFiles = folder.listFiles();
+            long startTime = System.nanoTime();
+            for (File file : listOfFiles) {
+                try (Scanner textReader = new Scanner(file)) {
+                    int n = Integer.parseInt(textReader.nextLine());
+                    int cap = Integer.parseInt(textReader.nextLine());
+                    Integer[] item = new Integer[n];
+                    int lowerBound = 0;
+                    for (int j = 0; j < n; j++) {
+                        String data = textReader.nextLine();
+                        item[j] = Integer.parseInt(data);
+                        lowerBound += item[j];
+                    }
+                    FFDTwoStage ffdTwoStageItemTrigger = new FFDTwoStage();
+                    ffdTwoStageItemTrigger.firstFitDecreasingBinOrItem(item, cap, 0.2, false);
+                    System.out.print("Item trigger " + ffdTwoStageItemTrigger.numOfBins + "\n");
+
+                    FFDTwoStage ffdTwoStageBinTrigger = new FFDTwoStage();
+                    ffdTwoStageBinTrigger.firstFitDecreasingBinOrItem(item, cap, 0.1 + 0.01 * i, false);
+                    System.out.print("Bin trigger " + ffdTwoStageBinTrigger.numOfBins + "\n");
+                    FFDTwoStage ffdTwoStageBinItemCapacityTrigger = new FFDTwoStage();
+                    ffdTwoStageBinItemCapacityTrigger.firstFitDecreasingCapacity(item, cap, 0.75, 0.0, 0.74);
+                    System.out.print("Bin Item Capacity trigger " +
+                            ffdTwoStageBinItemCapacityTrigger.numOfBins + "\n");
                 }
-                FFDTwoStage ffdTwoStageItemTrigger = new FFDTwoStage();
-                ffdTwoStageItemTrigger.firstFitDecreasingBinOrItem(item, cap, 0.2, false);
-                System.out.print("Item trigger " + ffdTwoStageItemTrigger.numOfBins + "\n");
-
-                FFDTwoStage ffdTwoStageBinTrigger = new FFDTwoStage();
-                ffdTwoStageBinTrigger.firstFitDecreasingBinOrItem(item, cap, 0.1 + 0.01*i, false);
-                System.out.print("Bin trigger " + ffdTwoStageBinTrigger.numOfBins + "\n");
-                FFDTwoStage ffdTwoStageBinItemCapacityTrigger = new FFDTwoStage();
-                ffdTwoStageBinItemCapacityTrigger.firstFitDecreasingCapacity(item, cap, 0.75, 0.0, 0.74);
-                System.out.print("Bin Item Capacity trigger " +
-                ffdTwoStageBinItemCapacityTrigger.numOfBins + "\n");
-                }
-        }
-        long endTime = System.nanoTime();
-        System.out.println("Time taken: " + (endTime - startTime) / 1000000  + "ms\n");
+            }
+            long endTime = System.nanoTime();
+            System.out.println("Time taken: " + (endTime - startTime) / 1000000 + "ms\n");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

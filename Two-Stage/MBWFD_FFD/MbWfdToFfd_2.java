@@ -54,7 +54,6 @@ public class MbWfdToFfd_2 {
         return true;
     }
 
-
     void hybridMbWfdToFfd(Integer[] items, int capacity, double itemRatio) {
         Arrays.sort(items, Collections.reverseOrder());
 
@@ -78,7 +77,7 @@ public class MbWfdToFfd_2 {
         ArrayList<Integer> tempResCap = new ArrayList<>();
         int min = upperBound;
         while (lowerBound <= upperBound) {
-            int middle = lowerBound + ((upperBound - lowerBound) /2);
+            int middle = lowerBound + ((upperBound - lowerBound) / 2);
             this.numOfBins = middle;
             resCap.clear();
             resCap.addAll(Collections.nCopies(numOfBins, capacity));
@@ -86,12 +85,11 @@ public class MbWfdToFfd_2 {
 
             if (!success) {
                 lowerBound = middle + 1;
-            } 
-             else {
+            } else {
                 tempResCap = new ArrayList<>(resCap);
                 min = middle;
                 upperBound = middle - 1;
-             }
+            }
         }
         resCap = tempResCap;
         numOfBins = min;
@@ -118,7 +116,7 @@ public class MbWfdToFfd_2 {
                     // Testing objects
                     MbWfdToFfd_2 res = new MbWfdToFfd_2();
                     res.hybridMbWfdToFfd(item, capacity, 0.450);
-                    System.out.println("Number of bins used "+ res.numOfBins);
+                    System.out.println("Number of bins used " + res.numOfBins);
                 }
             } catch (NumberFormatException e) {
                 e.printStackTrace();
@@ -127,5 +125,5 @@ public class MbWfdToFfd_2 {
             System.out.print("An error occured.\n");
             e.printStackTrace();
         }
-    }   
+    }
 }

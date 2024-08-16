@@ -75,7 +75,8 @@ public class BFD_BFD_1 {
         return true;
     }
 
-    // this gives the same result for any ratio you put in because nothing is being changed
+    // this gives the same result for any ratio you put in because nothing is being
+    // changed
     public static void main(String[] args) {
         try {
             int best = 1000000;
@@ -101,20 +102,19 @@ public class BFD_BFD_1 {
                         BFD_BFD_1 res = new BFD_BFD_1();
                         res.bfdToBfd(item, capacity, binRatio);
                         // System.out.println("Bin trigger " +
-                        //         res.numOfBins + "\n");
+                        // res.numOfBins + "\n");
                         sum += res.numOfBins;
                     }
-                    System.out.println("rat = "+binRatio+" sum is "+sum);
+                    System.out.println("rat = " + binRatio + " sum is " + sum);
                     if (sum <= best) {
                         best = sum;
                         rat = binRatio;
                     }
-                } 
-                catch (NumberFormatException e) {
+                } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
             }
-            System.out.println("Best ratio is "+rat);
+            System.out.println("Best ratio is " + rat);
         } catch (FileNotFoundException e) {
             System.out.print("An error occured.\n");
             e.printStackTrace();

@@ -118,9 +118,10 @@ public class BFD_WFD_3 {
     // this gives the same result for any ratio you put in because nothing is being
     // changed
     public static void main(String[] args) {
-        Double[] values = {0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0};
+        Double[] values = { 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0 };
         try {
-            File folder = new File("/uolstore/home/users/sc21rr/Desktop/Bin_Packing/algorithms/Bin-Packing-Algorithms/Testing-Data/Waescher");
+            File folder = new File(
+                    "/uolstore/home/users/sc21rr/Desktop/Bin_Packing/algorithms/Bin-Packing-Algorithms/Testing-Data/Waescher");
             File[] listOfFiles = folder.listFiles();
 
             long startTime = System.nanoTime();
@@ -131,7 +132,7 @@ public class BFD_WFD_3 {
             for (Double c : values) {
                 for (Double b : values) {
                     for (Double ir : values) {
-                        int sum  = 0;
+                        int sum = 0;
                         for (File file : listOfFiles) {
                             try (Scanner textReader = new Scanner(file)) {
                                 int n = Integer.parseInt(textReader.nextLine());
@@ -142,11 +143,11 @@ public class BFD_WFD_3 {
                                     item[j] = Integer.parseInt(data);
                                 }
                                 FFD_WFD_3 res = new FFD_WFD_3();
-                                res.ffdToWfd(item, cap, c, b, ir);   
+                                res.ffdToWfd(item, cap, c, b, ir);
                                 sum += res.numOfBins;
                             }
                         }
-                        System.out.println("c = "+c +" b = "+b+" i = "+ir+" sum = "+sum);
+                        System.out.println("c = " + c + " b = " + b + " i = " + ir + " sum = " + sum);
                         if (sum < best) {
                             best = sum;
                             cr = c;
@@ -154,9 +155,9 @@ public class BFD_WFD_3 {
                             ira = ir;
                         }
                     }
-                }   
+                }
             }
-            System.out.println("cr = "+cr +" br = "+br+" ir = "+ira +" best "+best);
+            System.out.println("cr = " + cr + " br = " + br + " ir = " + ira + " best " + best);
             long endTime = System.nanoTime();
             System.out.println("Time taken: " + (endTime - startTime) / 1000000 + "ms\n");
 
@@ -170,8 +171,8 @@ public class BFD_WFD_3 {
                         item[j] = Integer.parseInt(data);
                     }
                     BFD_WFD_3 res = new BFD_WFD_3();
-                    res.bfdToWfd(item, cap, cr, br, ira);   
-                    System.out.println("num of bins " +res.numOfBins);
+                    res.bfdToWfd(item, cap, cr, br, ira);
+                    System.out.println("num of bins " + res.numOfBins);
                 }
             }
 

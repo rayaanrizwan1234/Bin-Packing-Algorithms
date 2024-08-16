@@ -29,7 +29,7 @@ class BFD_MBWFD_2 {
         }
         return true;
     }
-    
+
     Boolean mbWfd(Integer[] items) {
         ArrayList<Integer> notAllocatedItems = new ArrayList<>();
         for (int item : items) {

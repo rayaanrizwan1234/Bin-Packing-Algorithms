@@ -17,15 +17,14 @@ class BFD_FFDTwoStageCap {
             int minBin = 0;
             for (int j = 0; j < numOfBins; j++) {
                 int remaining = resCap.get(j) - item;
-                if ((resCap.get(j) >= item) &&  remaining < min){
+                if ((resCap.get(j) >= item) && remaining < min) {
                     minBin = j;
                     min = remaining;
                 }
             }
             if (min == cap + 1) {
                 notAllocatedItems.add(item);
-            }
-            else {
+            } else {
                 resCap.set(minBin, min);
             }
         }
@@ -58,8 +57,8 @@ class BFD_FFDTwoStageCap {
             int min = cap + 1;
             int minBin = 0;
             for (int j = 0; j < numOfBins; j++) {
-                int remaining = resCap.get(j) - item ;
-                if ((resCap.get(j) >= item) && remaining < min){
+                int remaining = resCap.get(j) - item;
+                if ((resCap.get(j) >= item) && remaining < min) {
                     minBin = j;
                     min = resCap.get(j) - item;
                 }
@@ -68,12 +67,10 @@ class BFD_FFDTwoStageCap {
                 if (cap >= item) {
                     resCap.add(cap - item);
                     numOfBins++;
-                }
-                else {
+                } else {
                     notAllocatedItems.add(item);
                 }
-            }
-            else {
+            } else {
                 resCap.set(minBin, min);
             }
         }
@@ -104,7 +101,7 @@ class BFD_FFDTwoStageCap {
         if (itemRatio != 0) {
             int numItems1 = (int) Math.ceil(items.length * itemRatio);
 
-            // items for first stage 
+            // items for first stage
             items1 = Arrays.copyOfRange(items, 0, numItems1);
             // items for second stage
             items = Arrays.copyOfRange(items, numItems1, items.length);
@@ -150,13 +147,13 @@ class BFD_FFDTwoStageCap {
                     Integer[] item = new Integer[n];
                     for (int j = 0; j < n; j++) {
                         data = textReader.nextLine();
-                                item[j] = Integer.parseInt(data);
+                        item[j] = Integer.parseInt(data);
                     }
                     // Testing objects
                     BFD_FFDTwoStageCap ffdTwoStageBinItemCapacityTrigger = new BFD_FFDTwoStageCap();
                     ffdTwoStageBinItemCapacityTrigger.BFD_FFDCapacity(item, capacity, 0.61, 0, 0.6);
                     System.out.print("Bin Item Capacity trigger " +
-                    ffdTwoStageBinItemCapacityTrigger.numOfBins + "\n");
+                            ffdTwoStageBinItemCapacityTrigger.numOfBins + "\n");
                 }
             } catch (NumberFormatException e) {
                 e.printStackTrace();
