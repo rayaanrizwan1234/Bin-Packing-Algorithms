@@ -115,9 +115,5 @@ public class MbWfdToWfd_1 {
             System.out.print("An error occured.\n");
             e.printStackTrace();
         }
-        // Integer[] items = new Integer[] {6, 6, 5, 5, 4, 3, 3, 2, 1, 1};
-        // int capacity = 10;
-        // MbWfdToBfd_1 res = new MbWfdToBfd_1();
-        // res.hybridMbWfdToFfd(items, capacity, 0.5);
     }
 }

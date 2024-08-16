@@ -104,31 +104,5 @@ public class FFD_BFD_2 {
             System.out.print("An error occured.\n");
             e.printStackTrace();
         }
-
-        // try {
-        // // Reading data from a file
-        // File binText = new File("Testing-Data/irnich1.txt");
-        // try (Scanner textReader = new Scanner(binText)) {
-        // int problems = 1;
-        // for (int i = 0; i < problems; i++) {
-        // int n = Integer.parseInt(textReader.nextLine());
-        // int capacity = Integer.parseInt(textReader.nextLine());
-        // Integer[] item = new Integer[n];
-        // for (int j = 0; j < n; j++) {
-        // String data = textReader.nextLine();
-        // item[j] = Integer.parseInt(data);
-        // }
-        // // Testing objects
-        // FFD_BFD_2 hybrid = new FFD_BFD_2();
-        // hybrid.ffdToBfd(item, capacity, 0.67);
-        // System.out.println("Bin trigger " +hybrid.numOfBins + "\n");
-        // }
-        // } catch (NumberFormatException e) {
-        // e.printStackTrace();
-        // }
-        // } catch (FileNotFoundException e) {
-        // System.out.print("An error occured.\n");
-        // e.printStackTrace();
-        // }
     }
 }

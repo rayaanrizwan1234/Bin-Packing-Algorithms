@@ -200,13 +200,13 @@ class FFDTwoStage {
                     item[j] = Integer.parseInt(data);
                     lowerBound += item[j];
                 }
-                // FFDTwoStage ffdTwoStageItemTrigger = new FFDTwoStage();
-                // ffdTwoStageItemTrigger.firstFitDecreasingBinOrItem(item, cap, 0.2, false);
-                // System.out.print("Item trigger " + ffdTwoStageItemTrigger.numOfBins + "\n");
+                FFDTwoStage ffdTwoStageItemTrigger = new FFDTwoStage();
+                ffdTwoStageItemTrigger.firstFitDecreasingBinOrItem(item, cap, 0.2, false);
+                System.out.print("Item trigger " + ffdTwoStageItemTrigger.numOfBins + "\n");
 
-                // FFDTwoStage ffdTwoStageBinTrigger = new FFDTwoStage();
-                // ffdTwoStageBinTrigger.firstFitDecreasingBinOrItem(item, cap, 0.1 + 0.01*i, false);
-                // System.out.print("Bin trigger " + ffdTwoStageBinTrigger.numOfBins + "\n");
+                FFDTwoStage ffdTwoStageBinTrigger = new FFDTwoStage();
+                ffdTwoStageBinTrigger.firstFitDecreasingBinOrItem(item, cap, 0.1 + 0.01*i, false);
+                System.out.print("Bin trigger " + ffdTwoStageBinTrigger.numOfBins + "\n");
                 FFDTwoStage ffdTwoStageBinItemCapacityTrigger = new FFDTwoStage();
                 ffdTwoStageBinItemCapacityTrigger.firstFitDecreasingCapacity(item, cap, 0.75, 0.0, 0.74);
                 System.out.print("Bin Item Capacity trigger " +
@@ -218,6 +218,5 @@ class FFDTwoStage {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 }

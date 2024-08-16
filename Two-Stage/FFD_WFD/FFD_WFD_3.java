@@ -134,7 +134,6 @@ public class FFD_WFD_3 {
                         itemList[i][j] = Integer.parseInt(data);
                     }
                     // Testing objects
-
                 }
                 long startTime = System.nanoTime();
                 // Calculate the elapsed time
@@ -142,26 +141,26 @@ public class FFD_WFD_3 {
                 double ira = -1;
                 double cr = -1;
                 double br = -1;
-                // for (double c = 0.1; c <= 0.3; c += 0.01) {
-                // for (double b = 0.4; b <= 0.6; b += 0.01) {
-                // for (double ir = 0.85; ir <= 0.95; ir += 0.01) {
-                int sum = 0;
-                for (int i = 0; i < problems; i++) {
-                    FFD_WFD_3 hybrid = new FFD_WFD_3();
-                    hybrid.ffdToWfd(itemList[i], 150, 0.51, 0.95, 0.7);
-                    System.out.println("Number of bins = " + hybrid.numOfBins + "\n");
-                    sum += hybrid.numOfBins;
+                for (double c = 0.1; c <= 0.3; c += 0.01) {
+                    for (double b = 0.4; b <= 0.6; b += 0.01) {
+                        for (double ir = 0.85; ir <= 0.95; ir += 0.01) {
+                            int sum = 0;
+                            for (int i = 0; i < problems; i++) {
+                                FFD_WFD_3 hybrid = new FFD_WFD_3();
+                                hybrid.ffdToWfd(itemList[i], 150, 0.51, 0.95, 0.7);
+                                System.out.println("Number of bins = " + hybrid.numOfBins + "\n");
+                                sum += hybrid.numOfBins;
+                            }
+                            System.out.println("cr " + c + " br " + b + " ir " + ir);
+                            if (sum < best) {
+                                best = sum;
+                                ira = ir;
+                                br = b;
+                                cr = c;
+                            }
+                        }
+                    }
                 }
-                // System.out.println("cr " + c+ " br " + b + " ir " + ir);
-                // if (sum < best) {
-                // best = sum;
-                // ira = ir;
-                // br = b;
-                // cr = c;
-                // }
-                // }
-                // }
-                // }
                 System.out.println(cr + " " + br + " " + ira);
 
                 long elapsedTime = System.nanoTime() - startTime;

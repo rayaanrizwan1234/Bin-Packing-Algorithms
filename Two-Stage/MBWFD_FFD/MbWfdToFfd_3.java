@@ -135,10 +135,5 @@ public class MbWfdToFfd_3 {
             System.out.print("An error occured.\n");
             e.printStackTrace();
         }
-        // Integer[] items = new Integer[] {6, 6, 5, 5, 4, 3, 3, 2, 1, 1};
-        // int capacity = 10;
-        // MbWfdToFfd_3 res = new MbWfdToFfd_3();
-        // res.hybridMbWfdToFfd(items, capacity, 0.5, 0.75);
-        // System.out.println("Number of bins used "+ res.numOfBins);
     }
 }
