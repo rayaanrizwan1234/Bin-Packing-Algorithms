@@ -7,6 +7,7 @@ import java.io.File;
 
 class B2Fimproved{
     static int bestTwoFit(Integer item[], int n, int cap) {
+        // initialising residual capacities, bins and largest item.
         int numberOfBins = 0;
         int []resCap = new int[n];
         ArrayList<ArrayList<Integer>> bins = new ArrayList<ArrayList<Integer> >();
@@ -14,11 +15,12 @@ class B2Fimproved{
         int largestItem = item[0];
         item[0] = 0;
         while ((largestItem > cap/6) && numberOfBins < n){
+            // activates a new bin and appends the largest unpacked item.
             bins.add(new ArrayList<Integer>());
-            // finds the largest item used and sets it to 0.
             int i;
             resCap[numberOfBins] = cap - largestItem;
-            bins.get(numberOfBins).add(largestItem);       
+            bins.get(numberOfBins).add(largestItem);     
+            // fits as many unpacked items as possible in the newly activated bin.
             for (i = 0; i < n; i++) {
                 if (item[i] == 0) continue;
                 if (resCap[numberOfBins] >= item[i]) {
@@ -27,9 +29,12 @@ class B2Fimproved{
                     item[i] = 0;
                 }
             }
+            // gets the number of items in the bin and the smallest item from it.
             int size = bins.get(numberOfBins).size();
             int smallestItem = (bins.get(numberOfBins).get(size - 1));
+            // holds: number of bins, the smallest item in newly activated bin, value 1 from pair, value 2 from pair, number of items in the bin.
             int []replacer = { 0, 0, 0, 0, 0, 0 };
+            // if there's more than one item in the new bin, sees if there's a pair of unpacked items (where each one is no less than cap/6) that can replace the smallest item.
             if (size > 1) {
                 for (int k = 0; k < n; k++){
                     if (item[k] < cap/6) continue;
@@ -50,6 +55,7 @@ class B2Fimproved{
                     }
                 }
             }
+            // checks if a pair has been found.
             if (replacer[4] != 0){
                 // System.out.print("Replacing " + replacer[1] + " in " + replacer[0] + " with " + item[replacer[2]] + " and " + item[replacer[3]] + "\n");
                 resCap[replacer[0]] = resCap[replacer[0]] + replacer[1] - replacer[4];
@@ -58,6 +64,7 @@ class B2Fimproved{
                 item[replacer[2]] = replacer[1];
                 item[replacer[3]] = 0;
             }
+            // finds the new largest unpacked item, if no items whatsoever are found breaks the while loop.
             numberOfBins++;   
             for ( i = 0; i < n; i++){
                 if (item[i] != 0){
@@ -67,7 +74,7 @@ class B2Fimproved{
                 }
             }
             if (i == n) break;
-                   
+        // performs standard FFD to pack the rest of the items using bins activated thus far and activating new ones if necessary
         }
         for (int unit : item) {
             if (unit == 0) continue;
