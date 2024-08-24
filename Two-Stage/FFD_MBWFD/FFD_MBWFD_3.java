@@ -57,7 +57,7 @@ public class FFD_MBWFD_3 {
     }
 
     // This method is used to set triggers for number of bins or the number of items
-    boolean bfdToMbwfd(Integer items[], int capacity, double capacityRatio, double binRatio, double itemRatio) {
+    boolean ffdToMbwfd(Integer items[], int capacity, double capacityRatio, double binRatio, double itemRatio) {
         Arrays.sort(items, Collections.reverseOrder());
 
         int upperBound = items.length;
@@ -178,7 +178,7 @@ public class FFD_MBWFD_3 {
                             int sum = 0;
                             for (int i = 0; i < problems; i++) {
                                 FFD_MBWFD_3 hybrid = new FFD_MBWFD_3();
-                                hybrid.bfdToMbwfd(itemList[i], 150, c, b, ir);
+                                hybrid.ffdToMbwfd(itemList[i], 150, c, b, ir);
                                 sum += hybrid.numOfBins;
                             }
                             System.out.println("c = " + c + " b = " + b + " i = " + ir + " sum = " + sum);
@@ -197,7 +197,7 @@ public class FFD_MBWFD_3 {
 
                 for (int i = 0; i < problems; i++) {
                     FFD_MBWFD_3 hybrid = new FFD_MBWFD_3();
-                    hybrid.bfdToMbwfd(itemList[i], 150, cr, br, ira);
+                    hybrid.ffdToMbwfd(itemList[i], 150, cr, br, ira);
                     System.out.println("num of bins " + hybrid.numOfBins);
                 }
 
